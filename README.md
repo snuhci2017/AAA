@@ -1,0 +1,2 @@
+# AAA
+HCI 2017 Project - ASSEMBLY ACTIVITY ANALYSIS by jykim, ytaek
