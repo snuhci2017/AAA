@@ -17,7 +17,7 @@ with open('bills.csv', 'w', newline='') as csvfile:
     # Create csv header
     writer.writerow(["id","bill_name", "date", "representative_proposer", "proposer", "status", "summary"])
     # From bill number 1900001 to 1918652
-    for number in range(1900001, 1918652):
+    for number in range(1918652, 1918653):
         try:
             print(number)
             # Get info from api
