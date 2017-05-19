@@ -17,7 +17,7 @@ with open('bills.csv', 'w', newline='') as csvfile:
     # Create csv header
     writer.writerow(["id","bill_name", "date", "representative_proposer", "proposer", "status", "summary"])
     # From bill number 1900001 to 1918652
-    for number in range(1900001, 1918653):
+    for number in range(1900001, 1918652):
         try:
             print(number)
             # Get info from api
@@ -36,12 +36,15 @@ with open('bills.csv', 'w', newline='') as csvfile:
                     i+=1
                 else:
                     proposer_list.append(name.text.replace('\n',''))
+            # If representative is not an assembly member get info from api
+            if not representative:
+                representative = api["sponsor"]
             # Write info to csv file
             writer.writerow([number,api["name"], api["proposed_date"], representative, proposer_list, api["status"], api["summary"]])
             # Initialize variables
             i = 0
-            representative = ""
             proposer_list.clear()
+            representative = ""
         except:
             pass
 
