@@ -36,10 +36,8 @@
 			pointer-events: all;
 		}
 		.precinct.highlighted {
+			fill: #555;
 			opacity: 0.8;			
-		}
-		.province.notselected {
-			fill-opacity: 0.5;
 		}
 		.province.selected {
 			fill: none;
@@ -47,15 +45,8 @@
 			stroke-opacity: 1.0;
 			opacity: 1.0;
 		}
-		.precinct.selected {
-			stroke: #555;
-			stroke-opacity: 1.0;
-			opacity: 0.7;
-		}
-		img {
-			height: 65px;
-			margin: 0 5px 0 0;
-			float: left;
+		.svgText {
+    		pointer-events: none;
 		}
 	</style>
 </head>
@@ -66,13 +57,11 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
-	var maps_path = {19: {"provinces": "provinces.json", "precinct": "precinct.json"}}
-	var topo_key = {19: {"provinces": "provinces-geo", "precinct": "precincts"}}
-
-	var assembly_no = 19;
-	var largest_bill = 0;
+	var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
+	var topo_key = {"provinces": "provinces-geo", "precinct": "precincts"}
 
 	var id_list = [];
+	var largest_bill = 0;
 	var provinces;
 
 	var width = 960, height = 720;
@@ -102,9 +91,9 @@
 	var gm = g.append("g"); // group for precincts
 	var gp = g.append("g"); // group for province
 
-	d3.json(maps_path[assembly_no]["provinces"], function(error, kor) {
+	d3.json(maps_path["provinces"], function(error, kor) {
 		if (error) throw error;
-		provinces = topojson.feature(kor, kor.objects[topo_key[assembly_no]["provinces"]]);
+		provinces = topojson.feature(kor, kor.objects[topo_key["provinces"]]);
 		
 		var g_provinces = gp.selectAll('g')
 			.data(provinces.features, function(d) { return d.properties.code; })
@@ -126,14 +115,13 @@
 			.text(function(d) { return d.properties.name; });
 			
 		g_provinces.select("path.province")
-			.classed("notselected", false)
 			.classed("selected", true);
-
+		
 	});
 
-	d3.json(maps_path[assembly_no]["precinct"], function(error, kor) {
+	d3.json(maps_path["precinct"], function(error, kor) {
 		if (error) throw error;
-		var precincts = topojson.feature(kor, kor.objects[topo_key[assembly_no]["precinct"]]);
+		var precincts = topojson.feature(kor, kor.objects[topo_key["precinct"]]);
 		
 		var g_precincts = gm.selectAll('g')
 			.data(precincts.features, function(d) { return d.properties.precinct_no; })
@@ -145,23 +133,23 @@
 			.append('path')
 			.attr('d', path)
 			.attr('class', 'precinct')
-			.on("click", clicked)
-			.append("title")
-			.text(function(d) {return d.properties.precinct_name; });
+			.on("click", clicked);
         
 		g_precincts.append("text")
 			.attr("class", "precinct-label")
 			.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
 			.attr("dy", ".35em")
+			.on("click", clicked)
 			.text(function(d) {
 				if(d.properties.bills > largest_bill){
 					largest_bill = d.properties.bills;
 				} 
-				 return d.properties.precinct_name; });
+				 return d.properties.precinct_name; })
+			.classed("svgText",true);
 
 		g_precincts.select("path.precinct")
 			.style("fill", function(d) { return d3.hcl(255,0,(255-parseInt(d.properties.bills/largest_bill*2*255)));})
-			.style("stroke","#555");
+			.style("stroke","#000");
 
 		var state = provinces.features.filter(function(d) { return d.properties.code === '11'; })[0];
         var bounds = path.bounds(state),
@@ -179,30 +167,6 @@
 	
 		d3.selectAll(".province").style("stroke-width", 2 / scale + "px");
 		d3.selectAll(".precinct").style("stroke-width", 1 / scale + "px");
-
-		/*
-		g_precincts.on("mouseover", function() {
-			d3.select(this).select("path").classed("highlighted", true);
-			
-			var precinct_code = d3.select(this).datum().properties.precinct_no;
-			var html_text = "";
-
-            // Tooltip for precinct info and person
-			if( precinct_person.hasOwnProperty(precinct_code) ) {
-				var precinct = precinct_person[precinct_code];
-				html_text += '<h3>'+precinct.precinct_name+'</h3>';
-				html_text += '<img src="'+precinct.image+'" />';
-				html_text += '<div>' + precinct.person_name + '<br /><span style="color: white; background-color: '+precinct.party_color+';">'+ precinct.party + '</span></div>';
-			}
-			else {
-				html_text = "No data"
-			}
-
-			var point = d3.mouse(this);
-		});
-		g_precincts.on("mouseout", function() {
-			d3.select(this).select("path").classed("highlighted", false);
-		})*/
 	});
 
 	function clicked(d){
