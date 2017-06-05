@@ -36,7 +36,6 @@
 			pointer-events: all;
 		}
 		.precinct.highlighted {
-			fill: #555;
 			opacity: 0.8;			
 		}
 		.province.selected {
@@ -171,11 +170,13 @@
 
 	function clicked(d){
 		if(!d3.select(this).classed("highlighted")){
-			d3.select(this).classed("highlighted", true);
+			d3.select(this).style("fill","blue");
+			d3.select(this).classed("highlighted",true);
 			id_list.push(d.properties.id);
 		}
 		else{
-			d3.select(this).classed("highlighted", false);
+			d3.select(this).style("fill", function(d) { return d3.hcl(255,0,(255-parseInt(d.properties.bills/largest_bill*2*255)));});
+			d3.select(this).classed("highlighted",false);
 			for (var i = 0; i < id_list.length; i++){
 				if(id_list[i] === d.properties.id){
 					id_list.splice(i,1);
