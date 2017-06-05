@@ -66,7 +66,7 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
-	var maps_path = {19: {"provinces": "./provinces.json", "precinct": "./precinct.json"}}
+	var maps_path = {19: {"provinces": "provinces.json", "precinct": "precinct.json"}}
 	var topo_key = {19: {"provinces": "provinces-geo", "precinct": "precincts"}}
 
 	var assembly_no = 19;
@@ -179,9 +179,6 @@
 	
 		d3.selectAll(".province").style("stroke-width", 2 / scale + "px");
 		d3.selectAll(".precinct").style("stroke-width", 1 / scale + "px");
-	
-		d3.selectAll("text.province-label").style("font-size", 14 / scale + "px");
-
 
 		/*
 		g_precincts.on("mouseover", function() {
