@@ -66,20 +66,18 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
-	var maps_path = {19: {"provinces": "provinces.json", "precinct": "precinct.json"}}
+	var maps_path = {19: {"provinces": "./provinces.json", "precinct": "./precinct.json"}}
 	var topo_key = {19: {"provinces": "provinces-geo", "precinct": "precincts"}}
 
 	var assembly_no = 19;
 	var largest_bill = 0;
 
 	var id_list = [];
+	var provinces;
 
-	var scale = 14
-	var translate = [-4727,-1634]
-
-	var width = 940, height = 720;
+	var width = 960, height = 720;
 	var active = d3.select(null);
-
+	
 	var proj = d3.geo.mercator()
 		.center([128.0, 35.9])
 		.scale(6000)
@@ -90,8 +88,7 @@
 
 	var svg = d3.select("svg")
 		.attr("width", width)
-		.attr("height", height)
-		.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+		.attr("height", height);
 
 	svg.append("rect")
 		.attr("class", "background")
@@ -106,7 +103,8 @@
 	var gp = g.append("g"); // group for province
 
 	d3.json(maps_path[assembly_no]["provinces"], function(error, kor) {
-		var provinces = topojson.feature(kor, kor.objects[topo_key[assembly_no]["provinces"]]);
+		if (error) throw error;
+		provinces = topojson.feature(kor, kor.objects[topo_key[assembly_no]["provinces"]]);
 		
 		var g_provinces = gp.selectAll('g')
 			.data(provinces.features, function(d) { return d.properties.code; })
@@ -134,6 +132,7 @@
 	});
 
 	d3.json(maps_path[assembly_no]["precinct"], function(error, kor) {
+		if (error) throw error;
 		var precincts = topojson.feature(kor, kor.objects[topo_key[assembly_no]["precinct"]]);
 		
 		var g_precincts = gm.selectAll('g')
@@ -163,6 +162,27 @@
 		g_precincts.select("path.precinct")
 			.style("fill", function(d) { return d3.hcl(255,0,(255-parseInt(d.properties.bills/largest_bill*2*255)));})
 			.style("stroke","#555");
+
+		var state = provinces.features.filter(function(d) { return d.properties.code === '11'; })[0];
+        var bounds = path.bounds(state),
+			dx = bounds[1][0] - bounds[0][0],
+			dy = bounds[1][1] - bounds[0][1],
+			x = (bounds[0][0] + bounds[1][0]) / 2,
+			y = (bounds[0][1] + bounds[1][1]) / 2,
+			scale = .7 / Math.max(dx / width, dy / height),
+			translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+        g.transition()
+			.duration(0)
+			.style("stroke-width", 1.5 / scale + "px")
+			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+	
+		d3.selectAll(".province").style("stroke-width", 2 / scale + "px");
+		d3.selectAll(".precinct").style("stroke-width", 1 / scale + "px");
+	
+		d3.selectAll("text.province-label").style("font-size", 14 / scale + "px");
+
+
 		/*
 		g_precincts.on("mouseover", function() {
 			d3.select(this).select("path").classed("highlighted", true);
@@ -191,21 +211,8 @@
 	function clicked(d){
 		if(!d3.select(this).classed("highlighted")){
 			d3.select(this).classed("highlighted", true);
-			if(id_list.length === 0){
 			id_list.push(d.properties.id);
-			}
-			else{
-				for (var i = 0; i < id_list.length; i++){
-					if(id_list[i] === d.properties.id){
-						break;
-					}
-					else if(i === id_list.length - 1){
-						id_list.push(d.properties.id);
-					}
-				}
-			}
 		}
-
 		else{
 			d3.select(this).classed("highlighted", false);
 			for (var i = 0; i < id_list.length; i++){
