@@ -9,14 +9,14 @@ function addPerson(idList) {
         .data(columns)
         .enter()
         .append("th")
-        .text(function (d) {return d;});
-    
+        .text(function(d) { return d; });
+
     personTable.selectAll("thead").select("tr").append("th").text("DEL");
 
     // table body
     d3.tsv("data/assembly_test.tsv", function(error, data) {
         // FILTERING
-        data = data.filter(function (d) {
+        data = data.filter(function(d) {
             return idList.indexOf(Number(d['id'])) >= 0;
         });
 
@@ -25,18 +25,18 @@ function addPerson(idList) {
             .data(data)
             .enter()
             .append("tr")
-                .attr("id", function (d) { return "person" + d['id'];})
+            .attr("id", function(d) { return "person" + d['id']; })
 
-   		var cells = rows.selectAll('td')
-            .data(function (row) {
-                return columns.map(function (column) {
-                    return {column: column, value: row[column]};
+        var cells = rows.selectAll('td')
+            .data(function(row) {
+                return columns.map(function(column) {
+                    return { column: column, value: row[column] };
                 });
             })
             .enter()
             .append('td')
-                .text(function (d) { return d.value; });
-        
+            .text(function(d) { return d.value; });
+
         rows.append("td")
             .append("button")
             .text("X")
@@ -44,7 +44,7 @@ function addPerson(idList) {
                 d3.event.stopPropagation();
                 removePerson(d['id']);
             });
-        
+
         rows.on("click", function(d) { selectPerson(d['id']); });
     });
 }
@@ -63,4 +63,4 @@ function sortPersonList(contidions) {
 
 
 
-addPerson([1,2,3]);
+addPerson([1, 2, 3, 4, 5, 6, 7, 8, 9]);
