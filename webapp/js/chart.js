@@ -9,12 +9,6 @@ var margin = {
 
 var testData;
 var drawedIdList = [];
-var chartSvg = d3.select("body").append("svg")
-    .attr("width", chartSvgWidth)
-    .attr("height", chartSvgHeight)
-    .attr("id", "billDetailChart")
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 function addPersonToChart(id) {
     if (drawedIdList.length > 5) {
@@ -36,22 +30,30 @@ function removePersonFromChart(id) {
 }
 
 
+// chart initialization
+var parseTime = d3.timeParse("%y-%m");
+var color = d3.scale.category10();
+
+var width = chartSvgWidth - margin.left - margin.right,
+    height = chartSvgHeight - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+var yLeft = d3.scale.linear().range([height, 0]);
+var yRight = d3.scale.linear().range([height, 0]);
+
+var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format("%y-%m"));
+var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left");
+var yAxisRight = d3.svg.axis().scale(yRight).orient("right");
+
 function drawChart(idList) {
-    // chart initialization
-    var parseTime = d3.timeParse("%y-%m");
-    var color = d3.scale.category10();
+    d3.select("svg").remove();
+    var chartSvg = d3.select("body").append("svg")
+        .attr("width", chartSvgWidth)
+        .attr("height", chartSvgHeight)
+        .attr("id", "billDetailChart")
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var width = chartSvgWidth - margin.left - margin.right,
-        height = chartSvgHeight - margin.top - margin.bottom;
-
-    var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
-    var yLeft = d3.scale.linear().range([height, 0]);
-    var yRight = d3.scale.linear().range([height, 0]);
-
-    var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format("%y-%m"));
-    var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left");
-    var yAxisRight = d3.svg.axis().scale(yRight).orient("right");
-    
     d3.tsv("data/bill_detail_test.tsv", function (d) {
         d['DATE'] = parseTime(d['DATE']); return d;
     }, function (error, data) {
@@ -98,14 +100,16 @@ function drawChart(idList) {
                             .enter().append("g")
                             .attr("class", "layer")
                             .style("fill", function(d, i) { return color(i); });
+                            
+        var rects = layer.selectAll("rect")
+            .data(function (d) {return d;});
 
-        layer.selectAll("rect")
-            .data(function (d) {return d;})
-            .enter().append("rect")
+        rects.enter().append("rect")
             .attr("x", function (d) {return x(d.x);})
             .attr("width", x.rangeBand())
             .attr("y", function(d) { return yLeft(d.y + d.y0); })
             .attr("height", function(d) { return yLeft(d.y0) - yLeft(d.y + d.y0); })
+
         var xAxisPos = chartSvg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
@@ -181,13 +185,18 @@ function drawChart(idList) {
 }
 
 addPersonToChart(1);
-// addPersonToChart(2);
 
 setTimeout(function() {
-  addPersonToChart(2);  
-}, 3000);
-//addPersonToChart(2);
-// addPersonToChart(3);
+    addPersonToChart(2);
+}, 2000);
+setTimeout(function() {
+    addPersonToChart(3);
+}, 4000);
+setTimeout(function() {
+    removePersonFromChart(2);
+}, 6000);
+
+
 
 
 // function drawChart_bak(id) {
