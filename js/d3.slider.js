@@ -45,7 +45,7 @@ function slider(selection){
         min = value[0];
         max = value[1];
         if (!scale) {
-            scale = d3.time.scale().domain([min, max]);
+            scale = d3.time.scale().domain([min, max]).nice();
         }
 
         value = value || scale.domain()[0];
@@ -93,7 +93,7 @@ function slider(selection){
         function createAxis(dom) {
             if (typeof axis === "boolean") {
                 axis = d3.svg.axis()
-                .ticks(Math.round(sliderLength / 100))
+                .ticks(12)
                 .tickFormat(tickFormat);
             }
             axisScale = scale.copy().range([0, sliderLength]);
