@@ -87,22 +87,27 @@ function drawChart(idList) {
             return false;
         });
 
+        data = data.sort(function (x, y) {
+            return d3.ascending(x['DATE'], y['DATE']);
+        });
+
         // chart common elements
         x.domain(data.map(function (d) {
             return d['DATE'];
         }));
+        
+        // x = d3.time.scale().range([0, width])
+        //     .domain([d3.max(data, function(d) { return d['DATE']; }), d3.min(data, function(d) { return d['DATE']; })]);
+
 
         //////////////////////////////////////////
         // draw stackedBarChart
         var barChartData = data.reduce(function (prev, elem) {
-            // console.log(prev, elem, idList);
             key = elem['DATE'];
             if (elem['DATE'] in prev === false) {
                 prev[key] = idList.reduce(function (p) {p.push(0); return p;}, []);
             }
-            // console.log("asdf", elem['ID'], idList.indexOf(elem['ID']), prev);
             prev[key][idList.indexOf(elem['ID'])] = +elem['총합계'];
-            // prev[data['DATE']][idList.length] += +data['총합계'];
             return prev;
         }, {});
 
@@ -161,18 +166,35 @@ function drawChart(idList) {
         //////////////////////////////////////////
         // draw lineChart
         var cumulativeDataList = idList.reduce(function (p) {p.push([]); return p;}, []);
-        idList.map(function (id) {
-            data.filter(function (d) { return +d['ID'] === +id; })
-                .reduce(function (prevVal, curVal, curIndex, array) {
-                    var val = +prevVal + +curVal['총합계'];
-                    cumulativeDataList[idList.indexOf(id)].push(val);
-                    return val;
-                }, 0);
+
+        // using cumulativeDataList by barchartdata
+        // fill empty data by "0"
+        idList.map(function (id, i) {
+            var dateList = Object.keys(barChartData);
+            var sum = 0;
+            for (var fi = 0; fi < dateList.length; fi++) {
+                sum += barChartData[dateList[fi]][i];
+                cumulativeDataList[i].push({x:dateList[fi], y:sum});
+            }
         });
+
+        // idList.map(function (id) {
+        //     data.filter(function (d) { return +d['ID'] === +id; })
+        //         .reduce(function (prevVal, curVal, curIndex, array) {
+        //             var val = +prevVal + +curVal['총합계'];
+        //             cumulativeDataList[idList.indexOf(id)].push(val);
+        //             return val;
+        //         }, 0);
+        // });
+//         console.log(d3.max(cumulativeDataList, function(d) {
+//     console.log(d);
+//             return d[d.length-1].y;
+//         }));
+// return;
         yRight.domain([0, d3.max(cumulativeDataList, function (d) {
-            return +d[d.length-1];
+            return +d[d.length-1].y;
         })]).nice();
-        
+
         cumulativeDataList.map(function (chartData, i) {
             chartSvg.append("g")
                 .append("path")
@@ -184,9 +206,9 @@ function drawChart(idList) {
                 .attr("stroke-width", 1.5)
                 .attr("d",
                     d3.svg.line().x(function(d, i) {
-                        return x(data[i]['DATE']) + x.rangeBand() / 2;
+                        return +x(d.x) + x.rangeBand() / 2;
                     }).y(function(d) {
-                        return yRight(+d);
+                        return yRight(+d.y);
                     }));
         });
 
