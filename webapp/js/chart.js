@@ -9,6 +9,24 @@ var margin = {
 
 var testData;
 var drawedIdList = [];
+var color = d3.scale.category10();
+
+function drawSelectedPersonList(idList) {
+    console.log(idList);
+    var listDiv = d3.select("#selection").selectAll("div");
+    var div = listDiv.data(idList);
+    
+    div.enter().append("div").text(function (d) {
+            return d;
+        })
+        .style("background-color", function (d, i) {return color(i);})
+        .append("button")
+        .text("X")
+        .on("click", function (d) {
+            removePersonFromChart(d);
+        });
+    div.exit().remove();
+}
 
 function addPersonToChart(id) {
     if (drawedIdList.length > 5) {
@@ -16,7 +34,9 @@ function addPersonToChart(id) {
         return;
     }
     drawedIdList.push(id + "");
-    drawChart(drawedIdList);
+    drawSelectedPersonList(drawedIdList);
+
+    if (drawedIdList.lenght != 0) drawChart(drawedIdList);
 }
 
 function removePersonFromChart(id) {
@@ -26,13 +46,13 @@ function removePersonFromChart(id) {
     }
     
     drawedIdList.pop(drawedIdList.indexOf(id+""));
-    drawChart(drawedIdList);
+    drawSelectedPersonList(drawedIdList);
+    if (drawedIdList.lenght != 0) drawChart(drawedIdList);
 }
 
 
 // chart initialization
 var parseTime = d3.timeParse("%y-%m");
-var color = d3.scale.category10();
 
 var width = chartSvgWidth - margin.left - margin.right,
     height = chartSvgHeight - margin.top - margin.bottom;
@@ -188,13 +208,13 @@ addPersonToChart(1);
 
 setTimeout(function() {
     addPersonToChart(2);
-}, 2000);
+}, 1000);
 setTimeout(function() {
     addPersonToChart(3);
-}, 4000);
-setTimeout(function() {
-    removePersonFromChart(2);
-}, 6000);
+}, 2000);
+// setTimeout(function() {
+//     removePersonFromChart(2);
+// }, 3000);
 
 
 
