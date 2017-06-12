@@ -58,7 +58,8 @@
     }
 
     .wrapper {
-      width: 800px;
+      width: 600px;
+	  height: 600px;
       margin-left: 80px;
       margin-right: auto;
     }
@@ -77,12 +78,28 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="js/geo.js"></script>
-<script src="js/d3.slider.js"></script>
+<script src="js/radar_chart.js"></script>
 <div class="wrapper">
-	<div id="slider3"></div>
+	<div id="geo"></div>
+</div>
+<div class="wrapper">
+	<div id="chart"></div>
 </div>
 <script>
-    d3.select('#slider3').call(d3.slider().axis(true).value( [new Date(2010, 0, 2), new Date(2010, 1, 1)]));
+	var d = [
+         {axis: "bills", value: 1, order:0}, 
+         {axis: "bills_pass", value: 0.3, order:1}, 
+         {axis: "budget", value: 0.3, order:2},  
+         {axis: "conservative", value: 0.3, order:3},  
+         {axis: "progressive", value: 0.3, order:4},
+         {axis: "election", value: 0.3, order:5}
+        ];
+	drawGeo("#geo",null);
+	drawRadar("#chart", d);
+
+	function listen(data){
+		drawGeo("#geo", data);
+	}
 </script>
 
 </body>

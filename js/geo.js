@@ -1,10 +1,10 @@
-var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
+function drawGeo(id, data){
+	var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
 	var topo_key = {"provinces": "provinces-geo", "precinct": "precincts"}
 
 	var id_list = [];
 	var largest_bill = 0;
 	var provinces;
-
 	var width = 960, height = 720;
 	var active = d3.select(null);
 	
@@ -16,7 +16,7 @@ var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
 	var path = d3.geo.path()
 		.projection(proj);
 
-	var svg = d3.select("svg")
+	var svg = d3.select("#geo")
 		.attr("width", width)
 		.attr("height", height);
 
@@ -25,7 +25,8 @@ var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
 		.attr("width", width)
 		.attr("height", height);
 
-	var g = svg.append("g");
+	d3.select(id).select("svg").remove();
+	var g = d3.select(id).append("svg").attr("width", width).attr("height", height).append("g");
 
 	var precinct_person = {}; 
 
@@ -89,7 +90,9 @@ var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
 			.classed("svgText",true);
 
 		g_precincts.select("path.precinct")
-			.style("fill", function(d) { return d3.hcl(255,0,(255-parseInt(d.properties.bills/largest_bill*2*255)));})
+			.style("fill", function(d) {
+				// Write code in here! 
+				return d3.hcl(255,0,(255-parseInt(d.properties.bills/largest_bill*2*255)));})
 			.style("stroke","#000");
 
 		var state = provinces.features.filter(function(d) { return d.properties.code === '11'; })[0];
@@ -126,6 +129,6 @@ var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
 				}
 			}
 		}
-		console.log(id_list);
 		return id_list;
 	}
+}

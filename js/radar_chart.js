@@ -1,5 +1,4 @@
-var RadarChart = {
-    draw: function(id, d){
+function drawRadar(id, d){
         var cfg = {
             radius: 6,
             width: 600,
@@ -10,7 +9,7 @@ var RadarChart = {
             maxValue: 0,
             radians: 2 * Math.PI,
             opacityArea: 0.5,
-            color: d3.scale.category10()
+            color: d3.scale.category10(),
         };
         
 
@@ -18,7 +17,7 @@ var RadarChart = {
         var allAxis = (d.map(function(i, j){return i.axis}));
         var total = allAxis.length;
         var radius = cfg.factor*Math.min(cfg.width/2, cfg.height/2);
-        var data = [];
+        var data = []
 
         d3.select(id).select("svg").remove();
         var g = d3.select(id).append("svg").attr("width", cfg.width).attr("height", cfg.height).append("g");
@@ -121,12 +120,16 @@ var RadarChart = {
             })
             .attr("data-id", function(j){return j.axis;})
             .style("fill", cfg.color(0)).style("fill-opacity", 0.9)
-            .call(d3.behavior.drag().on("drag", move))
+            .call(d3.behavior.drag().on("drag", move).on("dragend",moveEnd))
             .append("svg:title")
             .text(function(j){return Math.max(j.value, 0)});
         }
 
         tooltip = g.append("text").style("opacity", 0).style("font-family", "Arial").style("font-size", 13);
+
+        function moveEnd(obj, i){
+            listen(data);
+        }
 
         function move(obj, i){
             this.parentNode.appendChild(this);
@@ -165,5 +168,4 @@ var RadarChart = {
             reCalculatePoints();
             drawPolygon();
         }
-    }
-};
+}
