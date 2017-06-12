@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <link rel="logo" type="image/png" href="demo.png" />
+      <title>Demo Radar chart D3</title>
+      <style>
+      body{font-family: sans-serif}
+      </style>
+</head>
+<body>
+ <div style='width:100%;display:block;'>
+  <div id="chart" style='float:left'></div>
+ </div>
+ 
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="src/radar_chart.js"></script>
+<script>
+var d = [
+         {axis: "bills", value: 1, order:0}, 
+         {axis: "bills_pass", value: 0.3, order:1}, 
+         {axis: "budget", value: 0.3, order:2},  
+         {axis: "conservative", value: 0.3, order:3},  
+         {axis: "progressive", value: 0.3, order:4},
+         {axis: "election", value: 0.3, order:5}
+        ];
+
+
+RadarChart.draw("#chart", d);
+
+
+//This function generates a new array with 3 objects every time. The values for each axis are randomized
+//In order to re-generate the radar chart, you jsut need to run RadarChart.draw("#chart2", data) as usual.
+
+
+</script>
+
+</body>
+</html>
