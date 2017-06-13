@@ -1,5 +1,6 @@
 // GLOBAL VARIABLES
 var radarColumnNames = ["bills", "bills_pass", "budget", "conservative", "progressive", "election"];
+var radarColumnNamesShort = ["B", "BP", "BG", "CS", "PG", "EL"];
 var maxForNormalization = {};
 var minForNormalization = {};
 var rankTable = d3.select("#rank_table");
@@ -7,7 +8,7 @@ var rankTableHeadTr = rankTable.append("thead").append("tr");
 var rankTableBody = rankTable.append("tbody");
 var color = d3.scale.category10();
 var masterData;
-var rankTableColumnWidth = 1074;
+var rankTableColumnWidth = 1044;
 var rankTableRowMaxHeight = 40;
 var rankTableRowMinHeight = 15;
 var rankTableMaxFontSize = 1.5;
@@ -38,6 +39,20 @@ d3.tsv("data/master_table.tsv", function(d) {
 });
 
 function init() {
+    // var rankAndName = { RANK: 60, NAME: 120 };
+    // rankTableHeadTr.style("padding", "1px")
+    // rankTableHeadTr
+    //     .selectAll("th")
+    //     .data(Object.keys(rankAndName).concat(radarColumnNames))
+    //     .enter()
+    //     .append("th")
+    //     .style("width", function(d, i) { return (i >= 2 ? rankTableColumnWidth / 6 : rankAndName[d]); })
+    //     .style("height", 15)
+    //     .style("opacity", 0.8)
+    //     .attr("class", "second_tr")
+    //     .style("background-color", function(d, i) { return (i >= 2 ? rankColor(i - 2) : ""); })
+    //     .text(function(d) { return d; });
+
     initBillSum();
     drawBillSumChart([]);
     sortList([1, 0.1, 0.1, 0.1, 0.1, 0.1]);
@@ -114,20 +129,21 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .domain([rankData.length, 1]);
     rankTableHeadTr
         .append("th")
-        .style("width", "20")
-        .text("rank");
+        .style("width", "40")
+        .text("RANK");
     rankTableHeadTr
         .append("th")
-        .style("width", "50")
-        .text("name");
-    rankTableHeadTr
+        .style("width", "80")
+        .text("NAME");
+    var headSvg = rankTableHeadTr
         .append("th")
         .style("width", rankTableColumnWidth)
         .append("div")
         .append("svg")
         .attr("width", rankTableColumnWidth)
         .attr("height", rankTableRowMaxHeight / 2)
-        .append("g")
+        .append("g");
+    headSvg
         .selectAll("rect")
         .data(pListStackForHeader)
         .enter()
@@ -141,7 +157,22 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .delay(300)
         .duration(300)
         .style("opacity", "0.8")
-        .style("fill", function(d, i) { return rankColor(i); });
+        .style("fill", function(d, i) { return rankColor(i); })
+        .text(function(d) { return x(d.x0); });
+    headSvg.selectAll("text")
+        .data(tableColumns)
+        .enter()
+        .append("text")
+        .attr("x", function(d, i) { return x(pListStackForHeader[i].x0); })
+        .attr("y", 15)
+        .text(function(d, i) {
+            if (x(pListStackForHeader[i].x) < 55) return radarColumnNamesShort[i];
+            else return d;
+        })
+        .style("font-size", function(d, i) {
+            if (x(pListStackForHeader[i].x) < 70) return "0.8em";
+            else return "1em";
+        });
 
     var rows = rankTableBody
         .selectAll("tr")
