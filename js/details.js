@@ -275,7 +275,7 @@ function drawDetailBarChart(divId, itemName, text, idList) {
         svgHeight = billChartSvgHeight / 2;
     var height = svgHeight - margin.top - margin.bottom;
     var width = svgWidth / 5 * idList.length - margin.left - margin.right;
-    var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.4);
+    var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.3);
     var yLeft = d3.scale.linear().rangeRound([height, 0]);
     //if (itemName === "election") yLeft = d3.scale.linear().range([height, 0]);
     var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left").tickFormat(d3.format("d"));
