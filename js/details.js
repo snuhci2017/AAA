@@ -49,6 +49,10 @@ function removePersonFromChart(id) {
         alert("no item left");
         return;
     }
+    for (i=0; i<drawedIdList.length; i++){
+        var name = "#gaugeChart" +(i+1).toString();
+        d3.select(name).select("svg").remove();
+    }
     console.log("remove", id, drawedIdList);
     var search = drawedIdList.indexOf(id);
     if (search >= 0) drawedIdList.splice(search, 1);
@@ -58,12 +62,87 @@ function removePersonFromChart(id) {
 
 function drawDetails() {
     drawSelectedPersonList(drawedIdList);
+    drawGaugeChart(drawedIdList);
     drawBillSumChart(drawedIdList);
     drawDetailBarChart("billPassSumChart", "bills_pass", "통과 수(건)", drawedIdList);
     drawDetailBarChart("budgetSumChart", "budget", "예산 (억원)", drawedIdList);
     drawDetailBarChart("electionChart", "election", "당선 (회)", drawedIdList);
 }
 
+function drawGaugeChart(idList) {
+    for(var i=0; i < idList.length; i++){
+    var inclination = 0;
+    for (var fi = 0; fi < masterData.length; fi++) {
+        if (+masterData[fi].id === +idList[i]){
+            inclination = masterData[fi].conservative * 20;
+        }
+    }
+    if (inclination > 40) {
+    var chart = c3.generate({
+        bindto: "#gaugeChart" +(i+1).toString(),
+    data: {
+        columns: [
+            ['tendency', inclination]
+        ],
+        type: 'gauge',
+        onclick: function (d, i) {},
+        onmouseover: function (d, i) {},
+        onmouseout: function (d, i) {}
+    },
+    gauge: {label: {
+    format: function (value, ratio) {
+        return "conservative";
+    }
+  }
+},
+    color: {
+        pattern: [ '#001dfc'], // the three color levels for the percentage values.
+        threshold: {
+//            unit: 'value', // percentage is default
+//            max: 200, // 100 is default
+            values: [1]
+        }
+    },
+    size: {
+        width: 200,
+        height: 100
+    }
+});
+} else {
+    inclination = 100 - inclination;
+    var chart = c3.generate({
+        bindto: "#gaugeChart" +(i+1).toString(),
+    data: {
+        columns: [
+            ['tendency', inclination]
+        ],
+        type: 'gauge',
+        onclick: function (d, i) {},
+        onmouseover: function (d, i) {},
+        onmouseout: function (d, i) {}
+    },
+    gauge: {label: {
+    format: function (value, ratio) {
+        return "progressive";
+    }
+  }
+},
+    color: {
+        pattern: [ '#FF0000'], // the three color levels for the percentage values.
+        threshold: {
+//            unit: 'value', // percentage is default
+//            max: 200, // 100 is default
+            values: [1]
+        }
+    },
+    size: {
+        width: 200,
+        height: 100
+    }
+});
+}
+    }
+}
 
 function drawSelectedPersonList(idList) {
     d3.selectAll(".person")
