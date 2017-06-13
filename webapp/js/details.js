@@ -4,7 +4,7 @@ var billPassSumData;
 var budgetSumData;
 var parseTime = d3.timeParse("%y-%m");
 
-var billChartSvgWidth = 1214;
+var billChartSvgWidth = 1200;
 var billChartSvgHeight = 300;
 var billMargin = {
     top: 20,
