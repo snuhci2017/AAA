@@ -5,7 +5,7 @@ function drawGeo(id, data){
 	var id_list = [];
 	var largest_bill = 0;
 	var provinces;
-	var width = 960, height = 720;
+	var width = 600, height = 500;
 	var active = d3.select(null);
 	
 	var proj = d3.geo.mercator()
@@ -69,7 +69,8 @@ function drawGeo(id, data){
 			.data(precincts.features, function(d) { return d.properties.precinct_no; })
 			.enter()
 			.append('g')
-			.attr('class', 'g_precinct');
+			.attr('class', 'g_precinct')
+			.attr('id', '#precincts');
 		
 		g_precincts
 			.append('path')
