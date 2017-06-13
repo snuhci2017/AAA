@@ -8,17 +8,18 @@ var rankTableBody = rankTable.append("tbody");
 var color = d3.scale.category10();
 var masterData;
 var rankTableColumnWidth = 400;
-var rankTableRowMaxHeight = 50;
+var rankTableRowMaxHeight = 40;
 var rankTableRowMinHeight = 15;
-var rankTableMaxFontSize = 2;
+var rankTableMaxFontSize = 1.5;
 var rankTableMinFontSize = 0.5;
 
 // LOAD MASTER DATA
-d3.tsv("data/master_test.tsv", function(d) {
+d3.tsv("data/master_table.tsv", function(d) {
     d.id = +d.id;
     radarColumnNames.forEach(function(item, i) {
         d[item] = +d[item];
     });
+    d.budget /= 10000000;
     return d;
 }, function(error, data, i) {
     masterData = data;
@@ -33,7 +34,6 @@ d3.tsv("data/master_test.tsv", function(d) {
 
 function init() {
     initBillSum();
-    initBillPassSum();
     sortList([1, 1, 0, 1, 1, 0]);
 }
 

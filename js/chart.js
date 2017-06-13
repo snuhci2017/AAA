@@ -1,14 +1,15 @@
 var drawedIdList = [];
 var billSumData;
 var billPassSumData;
+var budgetSumData;
 var parseTime = d3.timeParse("%y-%m");
 
-var billChartSvgWidth = 1200;
+var billChartSvgWidth = 1214;
 var billChartSvgHeight = 300;
 var billMargin = {
     top: 20,
     right: 60,
-    bottom: 66,
+    bottom: 50,
     left: 40
 };
 
@@ -21,17 +22,6 @@ function initBillSum() {
     }, function(error, data) {
         if (error) throw error;
         billSumData = data;
-    });
-}
-
-function initBillPassSum() {
-    d3.tsv("data/bill_pass_sum.tsv", function(d) {
-        d.id = +d.id;
-        d.count = +d.count;
-        return d;
-    }, function(error, data) {
-        if (error) throw error;
-        billPassSumData = data;
     });
 }
 
@@ -49,7 +39,10 @@ function addPersonToChart(id) {
     console.log(id, drawedIdList);
     drawSelectedPersonList(drawedIdList);
     drawBillSumChart(drawedIdList);
-    drawBillPassSumChart(drawedIdList);
+
+    drawDetailBarChart("billPassSumChart", "bills_pass", "통과 수(건)", drawedIdList);
+    drawDetailBarChart("budgetSumChart", "budget", "예산 (억원)", drawedIdList);
+    drawDetailBarChart("electionChart", "election", "당선 (회)", drawedIdList);
 }
 
 function removePersonFromChart(id) {
@@ -61,7 +54,7 @@ function removePersonFromChart(id) {
     drawedIdList.pop(drawedIdList.indexOf(id));
     drawSelectedPersonList(drawedIdList);
     drawBillSumChart(drawedIdList);
-    drawBillPassSumChart(drawedIdList);
+    drawDetailBarChart(drawedIdList);
 }
 
 function drawSelectedPersonList(idList) {
@@ -240,19 +233,26 @@ function drawBillSumChart(idList) {
         .text("의안 발의 수 누적(건)");
 }
 
-function drawBillPassSumChart(idList) {
-    // chart initialization
+function drawDetailBarChart(divId, itemName, text, idList) {
+    var margin = {
+        top: 10,
+        right: 10,
+        bottom: 10,
+        left: 10
+    };
+    // chart initialization 
     //var width = billChartSvgWidth - billMargin.left - billMargin.right,
     //    height = billChartSvgHeight - billMargin.top - billMargin.bottom;
-    var width = billChartSvgWidth,
-        height = billChartSvgHeight / 3;
-    width = width / 5 * idList.length;
-    var x = d3.scale.ordinal().rangeRoundBands([0, width], 0);
+    var svgWidth = billChartSvgWidth * 0.98,
+        svgHeight = billChartSvgHeight / 2
+    var height = svgHeight - margin.top - margin.bottom;
+    var width = svgWidth / 5 * idList.length - margin.left - margin.right;
+    var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.4);
+    var xAxis = d3.svg.axis().scale(x).orient("bottom");
     var yLeft = d3.scale.linear().range([height, 0]);
     var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left");
 
-    var data = billPassSumData;
-    d3.select("#billPassSumChart")
+    d3.select("#" + divId)
         .transition()
         .delay(50)
         .duration(50)
@@ -260,21 +260,24 @@ function drawBillPassSumChart(idList) {
         .remove();
 
     var chartSvg = d3.select("#detail").append("svg")
-        .attr("width", width)
-        .attr("height", billChartSvgHeight)
-        .attr("id", "billPassSumChart")
+        .attr("width", svgWidth)
+        .attr("height", svgHeight)
+        .attr("id", divId)
         .append("g")
-        .attr("transform", "translate(" + billMargin.left + "," + billMargin.top + ")");
-    console.log(data);
-    data = data.filter(function(d) {
+        .attr("transform", "translate(" + billMargin.left + "," + margin.top + ")");
+
+    data = masterData.filter(function(d) {
         for (var fi = 0; fi < idList.length; fi++) {
-            if (+idList[fi] === +d.id) return true;
+            if (+idList[fi] === +d.id) {
+                return true;
+            }
         }
         return false;
     });
+
     console.log(data);
     x.domain(data.map(function(d) { return d.id; }));
-    yLeft.domain([0, d3.max(data, function(d) { return d.count; })]);
+    yLeft.domain([0, d3.max(data, function(d) { return d[itemName]; })]);
     var layer = chartSvg
         .append("g")
         .selectAll("rect")
@@ -282,10 +285,10 @@ function drawBillPassSumChart(idList) {
         .enter()
         .append("rect")
         .style("fill", function(d, i) { return color(i); })
-        .attr("x", function(d) { return x(d.id); })
+        .attr("x", function(d) { return x(d.id) - billMargin.left / 2; })
         .attr("width", x.rangeBand())
-        .attr("y", function(d) { return yLeft(d.count); })
-        .attr("height", function(d) { return height - yLeft(d.count); });
+        .attr("y", function(d) { return yLeft(d[itemName]); })
+        .attr("height", function(d) { return height - yLeft(d[itemName]); });
 
     chartSvg.append("g")
         .attr("class", "y axis axisLeft")
@@ -293,7 +296,7 @@ function drawBillPassSumChart(idList) {
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
-        .attr("dy", ".71em")
+        .attr("dy", ".51em")
         .style("text-anchor", "end")
-        .text("통과 수(건)");
+        .text(text);
 }
