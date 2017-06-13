@@ -7,13 +7,11 @@ var rankTableHeadTr = rankTable.append("thead").append("tr");
 var rankTableBody = rankTable.append("tbody");
 var color = d3.scale.category10();
 var masterData;
-var rankTableColumnWidth = 600;
-var rankTableRowHeight = 15;
+var rankTableColumnWidth = 400;
 var rankTableRowMaxHeight = 50;
-var rankTableRowMinHeight = 10;
+var rankTableRowMinHeight = 15;
 var rankTableMaxFontSize = 2;
 var rankTableMinFontSize = 0.5;
-
 
 // LOAD MASTER DATA
 d3.tsv("data/master_test.tsv", function(d) {
@@ -34,6 +32,8 @@ d3.tsv("data/master_test.tsv", function(d) {
 });
 
 function init() {
+    initBillSum();
+    initBillPassSum();
     sortList([1, 1, 0, 1, 1, 0]);
 }
 
@@ -43,7 +43,6 @@ function sortList(priorityList) {
     var priSum = priorityList.reduce(function(prev, cur) { return prev + cur; }, 0);
     priorityList = priorityList.reduce(function(prev, cur) { prev.push(cur / priSum); return prev; }, []);
 
-    console.log(priorityList);
     var tableColumns = [];
     var priorityListNoZero = priorityList.reduce(function(prev, cur, i) {
         if (cur !== 0) {
@@ -74,10 +73,9 @@ function sortList(priorityList) {
     rankData.forEach(function(d) {
         d.rank = rank++;
     });
-    console.log(rankData);
 
     drawRankTable(priorityList, tableColumns, rankData);
-    // updateGeomap(rankData);
+    updateGeomap(rankData);
 }
 
 function drawRankTable(priorityList, tableColumns, rankData) {
@@ -226,13 +224,5 @@ function drawRankTable(priorityList, tableColumns, rankData) {
 }
 
 function selectPerson(id) {
-    alert(id);
+    addPersonToChart(id);
 }
-
-// setTimeout(function() {
-//     sortList([1, 0, 0, 0, 0, 1]);
-// }, 2000);
-
-// setTimeout(function() {
-//     sortList([1, 1, 1, 1, 1, 0]);
-// }, 4000);

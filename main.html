@@ -5,8 +5,10 @@
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
+    <script src="js/c3.min.js"></script>
     <style>
-        @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+        /*@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);*/
+        
         text,
         div,
         h1,
@@ -103,14 +105,16 @@
             font-size: 16px;
             font-weight: bold;
         }
-        .Division{
+        
+        .Division {
             float: left;
             width: 600px;
             height: 800px;
             border: 2px solid #000000;
             margin-left: 10px;
         }
-        .FullDivision{
+        
+        .FullDivision {
             float: left;
             width: 1214px;
             height: 800px;
@@ -120,21 +124,22 @@
         }
     </style>
 </head>
+
 <body>
-        <div class="Division" style="overflow:auto">
-            <table id="rank_table"></table>
+    <div class="Division" style="overflow:auto">
+        <table id="rank_table"></table>
+    </div>
+    <div class="Division" style="overflow:auto">
+        <div id="geo"></div>
+        <div class="wrapper" id="chart"></div>
+    </div>
+    <div class="FullDivision" style="overflow:auto">
+        <div style="width:100%;" id="detail">
+            <div style="width:100%;" id="selection"></div>
+            <div style="width:100%;" id="billSumchart"></div>
+            <div style="width:100%;" id="billPassSumchart"></div>
         </div>
-        <div class="Division" style="overflow:auto">
-            <div id="geo"></div>
-            <div class="wrapper" id="chart"></div>
-        </div>
-        <div class="FullDivision" style="overflow:auto">
-            <!--
-            <div style="width:100%;" id="detail">
-                <div style="width:100%;" id="selection"></div>
-                <div style="width:100%;" id="chart"></div>
-            </div> -->
-        </div>
+    </div>
     <script src="js/rank_table.js"></script>
     <script src="js/radar_chart.js"></script>
     <script src="js/geo.js"></script>
