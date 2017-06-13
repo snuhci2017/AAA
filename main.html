@@ -130,8 +130,16 @@
         drawGeo("#geo", null);
         drawRadar("#chart", d);
 
-        function listen(data) {
-            drawGeo("#geo", data);
+        function updateGeomap(data) {
+            d3.select("#geo").selectAll(".g_precinct").select("path.precinct").style("fill", function(d) {
+                var score = 0;
+                for (i = 0; i < data.length; i++){
+                    if (d.properties.precinct_name === data[i].precinct) {
+                        score = data[i].score;
+                    }
+                }
+				return d3.hcl(255,0,(255-parseInt(score*2*255)));})
+			.style("stroke","#000");
         }
     </script>
 </body>
