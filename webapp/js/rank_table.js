@@ -7,11 +7,11 @@ var rankTableHeadTr = rankTable.append("thead").append("tr");
 var rankTableBody = rankTable.append("tbody");
 var color = d3.scale.category10();
 var masterData;
-var rankTableColumnWidth = 1000;
+var rankTableColumnWidth = 1074;
 var rankTableRowMaxHeight = 40;
 var rankTableRowMinHeight = 15;
 var rankTableMaxFontSize = 1.5;
-var rankTableMinFontSize = 0.5;
+var rankTableMinFontSize = 0.01;
 
 // LOAD MASTER DATA
 d3.tsv("data/master_table.tsv", function(d) {
@@ -101,7 +101,7 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         return prev;
     }, []);
 
-    var x = d3.scale.linear().rangeRound([0, rankTableColumnWidth]);
+    var x = d3.scale.linear().range([0, rankTableColumnWidth]);
     var y = d3.scale.linear().rangeRound([rankTableRowMinHeight, rankTableRowMaxHeight])
         .domain([rankData.length, 1]);
     var fontScale = d3.scale.linear().range([rankTableMinFontSize, rankTableMaxFontSize])
@@ -146,7 +146,8 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .style("height", function(d, i) { return y(i); })
         .attr("id", function(d) { return "person" + d.id; })
         .style("font-size", function(d, i) { return fontScale(i) + "em"; })
-        .style("font-weight", "bold");
+        .style("font-weight", "bold")
+        .attr("class", function(d, i) { return (i % 2 === 1 ? "second_tr" : ""); });
     // .style("text-decoration", "underline");
 
 
@@ -201,12 +202,12 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .attr("x", function(d) { return x(d.x0); })
         .attr("width", function(d) { return x(d.x); })
         .attr("y", 0)
-        .style("height", "100%")
+        .style("height", "99%")
         .style("opacity", "0.0")
         .transition()
         .delay(300)
         .duration(300)
-        .style("opacity", "1.0")
+        .style("opacity", "0.8")
         .style("fill", function(d, i) { return color(i); });
 
     cells.exit()

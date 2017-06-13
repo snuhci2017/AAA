@@ -14,6 +14,14 @@
             padding: 0px;
         }
         
+        tr:hover {
+            background-color: rgba(255, 182, 193, 0.8);
+        }
+        
+        .second_tr {
+            background-color: #EEEEEE;
+        }
+        
         text,
         div,
         h1,
@@ -133,7 +141,7 @@
 
 <body>
     <div class="Division" style="overflow:auto">
-        <table id="rank_table" cellpadding="0" cellspacing="1"></table>
+        <table id="rank_table" cellpadding="0" cellspacing="0"></table>
     </div>
     <!--
     <div class="Division" style="overflow:auto">
@@ -162,7 +170,7 @@
     <script src="js/rank_table.js"></script>
     <script src="js/radar_chart.js"></script>
     <script src="js/geo.js"></script>
-    <script src="js/chart.js"></script>
+    <script src="js/details.js"></script>
     <script>
         var d = [{
             axis: "bills",
