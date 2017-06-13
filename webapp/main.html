@@ -67,6 +67,7 @@
         }
         
         body {
+            font-size: 9px;
             font-family: Verdana, Arial, sans-serif;
         }
         
@@ -135,9 +136,16 @@
     </div>
     <div class="FullDivision" style="overflow:auto">
         <div style="width:100%;" id="detail">
-            <div style="width:100%;" id="selection"></div>
-            <div style="width:100%;" id="billSumchart"></div>
-            <div style="width:100%;" id="billPassSumchart"></div>
+            <div style="width:100%;">
+                <div style="width:5%;float:left;">&nbsp;</div>
+                <div style="width:90%;float:left;">
+                    <div style="width:100%;float:left;" id="selection"></div>
+                </div>
+                <div style="width:5%;float:left;">&nbsp;</div>
+            </div>
+            <div style="width:100%;clear: both;" id="billSumchart"></div>
+            <div style="width:100%;clear: both;" id="billPassSumchart"></div>
+            <div style="width:100%;clear: both;" id="budgetSumchart"></div>
         </div>
     </div>
     <script src="js/rank_table.js"></script>
