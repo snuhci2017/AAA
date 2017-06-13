@@ -7,7 +7,7 @@ var rankTableHeadTr = rankTable.append("thead").append("tr");
 var rankTableBody = rankTable.append("tbody");
 var color = d3.scale.category10();
 var masterData;
-var rankTableColumnWidth = 400;
+var rankTableColumnWidth = 1000;
 var rankTableRowMaxHeight = 40;
 var rankTableRowMinHeight = 15;
 var rankTableMaxFontSize = 1.5;
@@ -34,7 +34,7 @@ d3.tsv("data/master_table.tsv", function(d) {
 
 function init() {
     initBillSum();
-    sortList([1, 1, 0, 1, 1, 0]);
+    sortList([1, 0.1, 0.1, 0.1, 0.1, 0.1]);
 }
 
 // LOAD BILLBYPERSON DATA
@@ -145,7 +145,10 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .append("tr")
         .style("height", function(d, i) { return y(i); })
         .attr("id", function(d) { return "person" + d.id; })
-        .style("font-size", function(d, i) { return fontScale(i) + "em"; });
+        .style("font-size", function(d, i) { return fontScale(i) + "em"; })
+        .style("font-weight", "bold");
+    // .style("text-decoration", "underline");
+
 
     var cells = rows.selectAll('td')
         .data(function(row) {
