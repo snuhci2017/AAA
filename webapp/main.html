@@ -1,6 +1,6 @@
 <html>
 <meta charset="utf-8" />
-
+<link rel="stylesheet" href="css/c3.css"/>
 <head>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -86,7 +86,7 @@
         }
         
         h2 {
-            font-size: 1.2em;
+            font-size: .2.2em;
             margin: 60px 0 5px 0;
         }
         
@@ -137,6 +137,21 @@
             margin-left: 10px;
             margin-top: 10px;
         }
+        
+        .GaugeFullDivision {
+            float: left;
+            width: 1200px;
+            height: 120px;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        .GaugeDivision {
+            width: 200px;
+            height: 100px;
+            margin-top:10px;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -162,6 +177,13 @@
                     <div style="width:100%;float:left;" id="selection"></div>
                 </div>
                 <div style="width:5%;float:left;">&nbsp;</div>
+            </div>
+            <div class="GaugeFullDivision" style="clear: both;">
+                <div class="GaugeDivision" style="margin-left: 60px;clear: both;" id="gaugeChart1"></div>
+                <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart2"></div>
+                <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart3"></div>
+                <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart4"></div>
+                <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart5"></div>
             </div>
             <div style="width:100%;clear: both;" id="billSumchart"></div>
             <div style="width:100%;clear: both;" id="billPassSumchart"></div>
