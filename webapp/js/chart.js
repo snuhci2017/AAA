@@ -247,7 +247,7 @@ function drawBillPassSumChart(idList) {
     var width = billChartSvgWidth,
         height = billChartSvgHeight / 3;
     width = width / 5 * idList.length;
-    var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.5);
+    var x = d3.scale.ordinal().rangeRoundBands([0, width], 0);
     var yLeft = d3.scale.linear().range([height, 0]);
     var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left");
 
