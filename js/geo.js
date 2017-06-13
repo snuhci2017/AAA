@@ -1,9 +1,27 @@
+
+        function updateGeomap(data) {
+			var maxVal = -1;
+			var minVal = 2;
+            d3.select("#geo").selectAll(".g_precinct").select("path.precinct").style("fill", function(d) {
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].score > maxVal) maxVal = data[i].score;
+                        if (data[i].score < minVal) minVal = data[i].score;
+                        if (d.properties.precinct_name === data[i].precinct) {
+                            score = data[i].score;
+                        }
+                    }
+                    return d3.hcl(-97, 150, 255 - (255 * ((score-minVal)/(maxVal-minVal))));
+                })
+                .style("stroke", "#000");
+        }
+
 function drawGeo(id, data){
 	var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
 	var topo_key = {"provinces": "provinces-geo", "precinct": "precincts"}
 
 	var id_list = [];
 	var largest_bill = 0;
+	var min_bill = 99999999;
 	var provinces;
 	var width = 600, height = 500;
 	var active = d3.select(null);
@@ -75,26 +93,29 @@ function drawGeo(id, data){
 		g_precincts
 			.append('path')
 			.attr('d', path)
-			.attr('class', 'precinct')
-			.on("click", clicked);
+			.attr('class', 'precinct');
+			//.on("click", clicked);
         
 		g_precincts.append("text")
 			.attr("class", "precinct-label")
 			.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
 			.attr("dy", ".35em")
-			.on("click", clicked)
 			.text(function(d) {
 				if(d.properties.bills > largest_bill){
 					largest_bill = d.properties.bills;
-				} 
+				}
+				if(d.properties.bills < min_bill){
+					min_bill = d.properties.bills;
+				}
 				 return d.properties.precinct_name; })
 			.classed("svgText",true);
 
 		g_precincts.select("path.precinct")
 			.style("fill", function(d) {
 				// Write code in here! 
-				return d3.hcl(255,0,(255-parseInt(d.properties.bills/largest_bill*2*255)));})
+				return d3.hcl(-97, 150, 255 - (255 * ((d.properties.bills-min_bill)/(largest_bill-min_bill))));})
 			.style("stroke","#000");
+			//.on("click", clicked)
 
 		var state = provinces.features.filter(function(d) { return d.properties.code === '11'; })[0];
         var bounds = path.bounds(state),
@@ -113,7 +134,7 @@ function drawGeo(id, data){
 		d3.selectAll(".province").style("stroke-width", 2 / scale + "px");
 		d3.selectAll(".precinct").style("stroke-width", 1 / scale + "px");
 	});
-
+	/*
 	function clicked(d){
 		if(!d3.select(this).classed("highlighted")){
 			d3.select(this).style("fill","blue");
@@ -131,5 +152,5 @@ function drawGeo(id, data){
 			}
 		}
 		return id_list;
-	}
+	}*/
 }
