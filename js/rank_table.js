@@ -9,6 +9,11 @@ var color = d3.scale.category10();
 var masterData;
 var rankTableColumnWidth = 600;
 var rankTableRowHeight = 15;
+var rankTableRowMaxHeight = 50;
+var rankTableRowMinHeight = 10;
+var rankTableMaxFontSize = 2;
+var rankTableMinFontSize = 0.5;
+
 
 // LOAD MASTER DATA
 d3.tsv("data/master_test.tsv", function(d) {
@@ -78,6 +83,7 @@ function sortList(priorityList) {
 function drawRankTable(priorityList, tableColumns, rankData) {
     // CLEAR
     rankTableHeadTr
+        .style("height", rankTableRowMaxHeight / 2)
         .selectAll("th")
         .data([])
         .exit()
@@ -96,7 +102,12 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         prev.push({ x: cur, x0: cum });
         return prev;
     }, []);
+
     var x = d3.scale.linear().rangeRound([0, rankTableColumnWidth]);
+    var y = d3.scale.linear().rangeRound([rankTableRowMinHeight, rankTableRowMaxHeight])
+        .domain([rankData.length, 1]);
+    var fontScale = d3.scale.linear().range([rankTableMinFontSize, rankTableMaxFontSize])
+        .domain([rankData.length, 1]);
     rankTableHeadTr
         .append("th")
         .style("width", "20")
@@ -111,7 +122,7 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .append("div")
         .append("svg")
         .attr("width", rankTableColumnWidth)
-        .attr("height", rankTableRowHeight)
+        .attr("height", rankTableRowMaxHeight / 2)
         .append("g")
         .selectAll("rect")
         .data(pListStackForHeader)
@@ -120,7 +131,7 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .attr("x", function(d) { return x(d.x0); })
         .attr("width", function(d) { return x(d.x); })
         .attr("y", 0)
-        .attr("height", rankTableRowHeight - 1)
+        .attr("height", "100%")
         .style("opacity", "0.0")
         .transition()
         .delay(300)
@@ -134,7 +145,9 @@ function drawRankTable(priorityList, tableColumns, rankData) {
 
     rows.enter()
         .append("tr")
-        .attr("id", function(d) { return "person" + d.id; });
+        .style("height", function(d, i) { return y(i); })
+        .attr("id", function(d) { return "person" + d.id; })
+        .style("font-size", function(d, i) { return fontScale(i) + "em"; });
 
     var cells = rows.selectAll('td')
         .data(function(row) {
@@ -150,8 +163,8 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .delay(300)
         .duration(300)
         .style("opacity", "1.0")
+        .attr("align", "center")
         .text(function(d) { return d.value; });
-
 
     // STACKED BAR CHART
     var stack = d3.layout.stack()(
@@ -168,16 +181,16 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .append("div")
         .append("svg")
         .attr("width", rankTableColumnWidth)
-        .attr("height", rankTableRowHeight)
+        .style("height", function(d, i) { return y(i); })
         .append("g");
 
     var rects = chartSvg
         .selectAll("rect")
-        .data(function(d) {
+        .data(function(d, di) {
             return tableColumns.reduce(function(prev, cur, i) {
                 var cum = 0;
                 if (i > 0) cum = prev[i - 1].x0 + prev[i - 1].x;
-                prev.push({ x: d[cur], x0: cum });
+                prev.push({ x: d[cur], x0: cum, y: di });
                 return prev;
             }, []);
         });
@@ -187,7 +200,7 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .attr("x", function(d) { return x(d.x0); })
         .attr("width", function(d) { return x(d.x); })
         .attr("y", 0)
-        .attr("height", rankTableRowHeight - 1)
+        .style("height", "100%")
         .style("opacity", "0.0")
         .transition()
         .delay(300)
@@ -201,13 +214,6 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .duration(500)
         .style('opacity', 0.0)
         .remove();
-
-    // thead.exit()
-    //     .transition()
-    //     .delay(200)
-    //     .duration(500)
-    //     .style('opacity', 0.0)
-    //     .remove();
 
     rows.exit()
         .transition()
