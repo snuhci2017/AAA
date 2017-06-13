@@ -34,15 +34,9 @@ function addPersonToChart(id) {
     if (drawedIdList.indexOf(id) >= 0) {
         return;
     }
-    console.log(id, drawedIdList);
-    drawedIdList.push(id);
-    console.log(id, drawedIdList);
-    drawSelectedPersonList(drawedIdList);
-    drawBillSumChart(drawedIdList);
 
-    drawDetailBarChart("billPassSumChart", "bills_pass", "통과 수(건)", drawedIdList);
-    drawDetailBarChart("budgetSumChart", "budget", "예산 (억원)", drawedIdList);
-    drawDetailBarChart("electionChart", "election", "당선 (회)", drawedIdList);
+    drawedIdList.push(id);
+    drawDetails();
 }
 
 function removePersonFromChart(id) {
@@ -52,27 +46,42 @@ function removePersonFromChart(id) {
     }
 
     drawedIdList.pop(drawedIdList.indexOf(id));
+    drawDetails();
+}
+
+function drawDetails() {
     drawSelectedPersonList(drawedIdList);
     drawBillSumChart(drawedIdList);
-    drawDetailBarChart(drawedIdList);
+    drawDetailBarChart("billPassSumChart", "bills_pass", "통과 수(건)", drawedIdList);
+    drawDetailBarChart("budgetSumChart", "budget", "예산 (억원)", drawedIdList);
+    drawDetailBarChart("electionChart", "election", "당선 (회)", drawedIdList);
 }
+
 
 function drawSelectedPersonList(idList) {
     var listDiv = d3.select("#selection").selectAll("div");
-    var div = listDiv.data(idList);
+    var divPoint = listDiv.data(idList);
 
-    div.enter().append("div").text(function(d) {
-            return d;
+    var div = divPoint.enter().append("div")
+        .text(function(d) {
+            for (var fi = 0; fi < masterData.length; fi++) {
+                if (+masterData[fi].id === +d) return masterData[fi].name;
+            }
+            return "";
         })
         .style("background-color", function(d, i) { return color(i); })
         .style("float", "left")
         .style("width", "20%")
-        .append("button")
+        .attr("align", "center");
+
+    div.append("button")
         .text("X")
         .on("click", function(d) {
             removePersonFromChart(d);
         });
-    div.exit().remove();
+
+    divPoint.exit().remove();
+
 }
 
 function drawBillSumChart(idList) {
@@ -244,11 +253,10 @@ function drawDetailBarChart(divId, itemName, text, idList) {
     //var width = billChartSvgWidth - billMargin.left - billMargin.right,
     //    height = billChartSvgHeight - billMargin.top - billMargin.bottom;
     var svgWidth = billChartSvgWidth * 0.98,
-        svgHeight = billChartSvgHeight / 2
+        svgHeight = billChartSvgHeight / 2;
     var height = svgHeight - margin.top - margin.bottom;
     var width = svgWidth / 5 * idList.length - margin.left - margin.right;
     var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.4);
-    var xAxis = d3.svg.axis().scale(x).orient("bottom");
     var yLeft = d3.scale.linear().range([height, 0]);
     var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left");
 
@@ -258,6 +266,8 @@ function drawDetailBarChart(divId, itemName, text, idList) {
         .duration(50)
         .style('opacity', 0.0)
         .remove();
+
+    if (idList.length === 0) return;
 
     var chartSvg = d3.select("#detail").append("svg")
         .attr("width", svgWidth)
@@ -277,7 +287,8 @@ function drawDetailBarChart(divId, itemName, text, idList) {
 
     console.log(data);
     x.domain(data.map(function(d) { return d.id; }));
-    yLeft.domain([0, d3.max(data, function(d) { return d[itemName]; })]);
+    yLeft.domain([0, d3.max(data, function(d) { return d[itemName]; })]).nice();
+
     var layer = chartSvg
         .append("g")
         .selectAll("rect")

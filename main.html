@@ -9,6 +9,11 @@
     <style>
         /*@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);*/
         
+        table tr td tbody thead th {
+            border: none;
+            padding: 0px;
+        }
+        
         text,
         div,
         h1,
@@ -109,7 +114,7 @@
         
         .Division {
             float: left;
-            width: 600px;
+            width: 1200px;
             height: 800px;
             border: 2px solid #000000;
             margin-left: 10px;
@@ -128,12 +133,18 @@
 
 <body>
     <div class="Division" style="overflow:auto">
-        <table id="rank_table"></table>
+        <table id="rank_table" cellpadding="0" cellspacing="1"></table>
     </div>
+    <!--
     <div class="Division" style="overflow:auto">
         <div id="geo"></div>
         <div class="wrapper" id="chart"></div>
     </div>
+    -->
+    <div style="position:absolute;top:-20px;left:600px;">
+        <div id="geo"></div>
+    </div>
+    <div class="wrapper" id="chart" style="position:absolute;top:480px;left:620px;"></div>
     <div class="FullDivision" style="overflow:auto">
         <div style="width:100%;" id="detail">
             <div style="width:100%;">
@@ -180,19 +191,6 @@
         }];
         drawGeo("#geo", null);
         drawRadar("#chart", d);
-
-        function updateGeomap(data) {
-            d3.select("#geo").selectAll(".g_precinct").select("path.precinct").style("fill", function(d) {
-                    var score = 0;
-                    for (i = 0; i < data.length; i++) {
-                        if (d.properties.precinct_name === data[i].precinct) {
-                            score = data[i].score;
-                        }
-                    }
-                    return d3.hcl(255, 0, (255 - parseInt(score * 2 * 255)));
-                })
-                .style("stroke", "#000");
-        }
     </script>
 </body>
 
