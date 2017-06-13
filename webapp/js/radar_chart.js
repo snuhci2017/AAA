@@ -1,8 +1,8 @@
 function drawRadar(id, d) {
     var cfg = {
         radius: 6,
-        width: 600,
-        height: 600,
+        width: 300,
+        height: 300,
         factor: 1,
         factorLegend: .85,
         levels: 3,
@@ -136,13 +136,13 @@ function drawRadar(id, d) {
 
         var dragTarget = d3.select(this);
         var oldData = dragTarget.data()[0];
-        var oldX = parseFloat(dragTarget.attr("cx")) - 300;
-        var oldY = 300 - parseFloat(dragTarget.attr("cy"));
+        var oldX = parseFloat(dragTarget.attr("cx")) - 150;
+        var oldY = 150 - parseFloat(dragTarget.attr("cy"));
         var newY = 0,
             newX = 0,
             newValue = 0;
-        var maxX = maxAxisValues[i].x - 300;
-        var maxY = 300 - maxAxisValues[i].y;
+        var maxX = maxAxisValues[i].x - 150;
+        var maxY = 150 - maxAxisValues[i].y;
 
         if (oldX === 0) {
             newY = oldY - d3.event.dy;
@@ -152,7 +152,7 @@ function drawRadar(id, d) {
             newValue = (newY / oldY) * oldData.value;
         } else {
             var slope = oldY / oldX;
-            newX = d3.event.dx + parseFloat(dragTarget.attr("cx")) - 300;
+            newX = d3.event.dx + parseFloat(dragTarget.attr("cx")) - 150;
             if (Math.abs(newX) > Math.abs(maxX)) {
                 newX = maxX;
             }
@@ -163,8 +163,8 @@ function drawRadar(id, d) {
         }
 
         dragTarget
-            .attr("cx", function() { return newX + 300; })
-            .attr("cy", function() { return 300 - newY; });
+            .attr("cx", function() { return newX + 150; })
+            .attr("cy", function() { return 150 - newY; });
 
         d[oldData.order].value = newValue;
         reCalculatePoints();

@@ -74,10 +74,8 @@
         }
         
         .wrapper {
-            width: 600px;
-            height: 600px;
-            margin-left: 80px;
-            margin-right: auto;
+            margin-left: 150px;
+            margin-right: 150px;
         }
         
         .wrapper>div {
@@ -105,25 +103,38 @@
             font-size: 16px;
             font-weight: bold;
         }
+        .Division{
+            float: left;
+            width: 600px;
+            height: 800px;
+            border: 2px solid #000000;
+            margin-left: 10px;
+        }
+        .FullDivision{
+            float: left;
+            width: 1214px;
+            height: 800px;
+            border: 2px solid #000000;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
     </style>
 </head>
-
 <body>
-    <div style="width:100%;">
-        <div class="wrapper" style="width:60%; height:600px; overflow:auto">
+        <div class="Division" style="overflow:auto">
             <table id="rank_table"></table>
         </div>
-        <!--
-        <div style="width:40%; height:300px;" class="wrapper" id="geo"></div>
-        <div style="width:40%; height:300px;" class="wrapper" id="chart"></div>
-        -->
-        <div style="width:40%; height:300px;" class="wrapper" id="geo"></div>
-        <div style="width:40%; height:300px;" class="wrapper" id="chart"></div>
-    </div>
-    <div style="width:100%;" id="detail">
-        <div style="width:100%;" id="selection"></div>
-        <div style="width:100%;" id="chart"></div>
-    </div>
+        <div class="Division" style="overflow:auto">
+            <div id="geo"></div>
+            <div class="wrapper" id="chart"></div>
+        </div>
+        <div class="FullDivision" style="overflow:auto">
+            <!--
+            <div style="width:100%;" id="detail">
+                <div style="width:100%;" id="selection"></div>
+                <div style="width:100%;" id="chart"></div>
+            </div> -->
+        </div>
     <script src="js/rank_table.js"></script>
     <script src="js/radar_chart.js"></script>
     <script src="js/geo.js"></script>
