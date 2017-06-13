@@ -13,6 +13,11 @@ var rankTableRowMinHeight = 15;
 var rankTableMaxFontSize = 1.5;
 var rankTableMinFontSize = 0.01;
 
+var rankColor = function(i) {
+    return colorbrewer.RdYlGn["6"][i % 6];
+};
+
+
 // LOAD MASTER DATA
 d3.tsv("data/master_table.tsv", function(d) {
     d.id = +d.id;
@@ -34,6 +39,7 @@ d3.tsv("data/master_table.tsv", function(d) {
 
 function init() {
     initBillSum();
+    drawBillSumChart([]);
     sortList([1, 0.1, 0.1, 0.1, 0.1, 0.1]);
 }
 
@@ -134,8 +140,8 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .transition()
         .delay(300)
         .duration(300)
-        .style("opacity", "1.0")
-        .style("fill", function(d, i) { return color(i); });
+        .style("opacity", "0.8")
+        .style("fill", function(d, i) { return rankColor(i); });
 
     var rows = rankTableBody
         .selectAll("tr")
@@ -208,7 +214,7 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .delay(300)
         .duration(300)
         .style("opacity", "0.8")
-        .style("fill", function(d, i) { return color(i); });
+        .style("fill", function(d, i) { return rankColor(i); });
 
     cells.exit()
         .transition()
