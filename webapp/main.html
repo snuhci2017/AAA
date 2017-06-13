@@ -3,20 +3,137 @@
 
 <head>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <style>
+        @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+        text,
+        div,
+        h1,
+        h3,
+        span {
+            font-family: 'Nanum Gothic', sans-serif;
+            font-size: 13px;
+        }
+        
+        .background {
+            fill: #fff;
+        }
+        
+        .province {
+            fill: #eee;
+            stroke: #555;
+            stroke-width: 0.14;
+            fill-opacity: 0.1;
+            stroke-opacity: 0.5;
+        }
+        
+        .precinct {
+            stroke: #fff;
+            stroke-width: 0.07;
+            opacity: 0.5;
+        }
+        
+        .province-label {
+            font-size: 3px;
+            text-anchor: middle;
+            fill: #333;
+        }
+        
+        .precinct-label {
+            font-size: 0.65px;
+            text-anchor: middle;
+        }
+        
+        .g_precincts {
+            pointer-events: all;
+        }
+        
+        .precinct.highlighted {
+            opacity: 0.8;
+        }
+        
+        .province.selected {
+            fill: none;
+            stroke: #555;
+            stroke-opacity: 1.0;
+            opacity: 1.0;
+        }
+        
+        .svgText {
+            pointer-events: none;
+        }
+        
+        body {
+            font-family: Verdana, Arial, sans-serif;
+        }
+        
+        h2 {
+            font-size: 1.2em;
+            margin: 60px 0 5px 0;
+        }
+        
+        .wrapper {
+            width: 600px;
+            height: 600px;
+            margin-left: 80px;
+            margin-right: auto;
+        }
+        
+        .wrapper>div {
+            margin: 35px 0;
+        }
+    </style>
 </head>
 
 <body>
     <div style="width:100%;">
-        <div style="width:60%; height:600px; overflow:auto">
+        <div class="wrapper" style="width:60%; height:600px; overflow:auto">
             <table id="rank_table"></table>
         </div>
-        <div style="width:40%; height:300px;" id="geomap">
-        </div>
-        <div style="width:40%; height:300px;" id="pri_radar">
-        </div>
+        <!--
+        <div style="width:40%; height:300px;" class="wrapper" id="geo"></div>
+        <div style="width:40%; height:300px;" class="wrapper" id="chart"></div>
+        -->
+        <div style="width:40%; height:300px;" class="wrapper" id="geo"></div>
+        <div style="width:40%; height:300px;" class="wrapper" id="chart"></div>
     </div>
     <div style="width:100%;" id="detail"></div>
     <script src="js/rank_table.js"></script>
+    <script src="js/radar_chart.js"></script>
+    <script src="js/geo.js"></script>
+    <script>
+        var d = [{
+            axis: "bills",
+            value: 1,
+            order: 0
+        }, {
+            axis: "bills_pass",
+            value: 0.3,
+            order: 1
+        }, {
+            axis: "budget",
+            value: 0.3,
+            order: 2
+        }, {
+            axis: "conservative",
+            value: 0.3,
+            order: 3
+        }, {
+            axis: "progressive",
+            value: 0.3,
+            order: 4
+        }, {
+            axis: "election",
+            value: 0.3,
+            order: 5
+        }];
+        drawGeo("#geo", null);
+        drawRadar("#chart", d);
+
+        function listen(data) {
+            drawGeo("#geo", data);
+        }
+    </script>
 </body>
 
 </html>
