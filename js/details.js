@@ -276,8 +276,8 @@ function drawDetailBarChart(divId, itemName, text, idList) {
     var height = svgHeight - margin.top - margin.bottom;
     var width = svgWidth / 5 * idList.length - margin.left - margin.right;
     var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.4);
-    var yLeft = d3.scale.linear().range([height, 0]);
-    if (itemName === "election") yLeft = d3.scale.linear().range([height, 0]);
+    var yLeft = d3.scale.linear().rangeRound([height, 0]);
+    //if (itemName === "election") yLeft = d3.scale.linear().range([height, 0]);
     var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left").tickFormat(d3.format("d"));
     var yAxisRight = d3.svg.axis().scale(yLeft).orient("right").tickFormat(d3.format("d"));
 
@@ -293,14 +293,15 @@ function drawDetailBarChart(divId, itemName, text, idList) {
         .append("g")
         .attr("transform", "translate(" + billMargin.left + "," + margin.top + ")");
 
-    data = masterData.filter(function(d) {
-        for (var fi = 0; fi < idList.length; fi++) {
-            if (+idList[fi] === +d.id) {
-                return true;
+    data = idList.reduce(function(prev, cur) {
+        for (var fi = 0; fi < masterData.length; fi++) {
+            if (+cur === masterData[fi].id) {
+                prev.push(masterData[fi]);
+                break;
             }
         }
-        return false;
-    });
+        return prev;
+    }, []);
 
     x.domain(data.map(function(d) { return d.id; }));
     var min = d3.max(data, function(d) { return d[itemName]; });
