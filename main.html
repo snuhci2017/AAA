@@ -20,6 +20,7 @@
             border: none;
             padding: 0px;
         }
+        
         .odd_tr:hover {
             background-color: rgba(30, 144, 255, 0.6);
         }
@@ -135,9 +136,9 @@
         .Division {
             float: left;
             width: 1200px;
-            height: 800px;
-            border: 2px solid #000000;
-            margin-top: 50px;
+            height: 935px;
+            border: 0px solid #DDDDDD;
+            margin-top: 60px;
             margin-left: 10px;
         }
         
@@ -171,7 +172,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Assembly activity analysis</a>
+                <a class="navbar-brand" href="#"><b>Assembly activity analysis</b> (by Team AAA)</a>
             </div>
         </div>
     </nav>
@@ -187,19 +188,21 @@
         <div class="wrapper" id="chart"></div>
     </div>
     -->
-        <div style="position:absolute;top:50px;left:750px;">
+        <div style="position:absolute;top:100px;left:730px;">
             <div id="geo"></div>
         </div>
-        <div class="wrapper" id="chart" style="position:absolute;top:520px;left:700px;"></div>
+        <div class="wrapper" id="chart" style="position:absolute;top:600px;left:650px;"></div>
         <div class="FullDivision">
             <div style="width:100%;" id="detail">
-                <div style="width:100%;">
+                <div style="width:100%;" id="detailHead">
                     <div style="width:5%;float:left;">&nbsp;</div>
                     <div style="width:90%;float:left;">
                         <div style="width:100%;float:left;" id="selection"></div>
                     </div>
                     <div style="width:5%;float:left;">&nbsp;</div>
                 </div>
+                <div style="width:100%;" id="detailBillSumChartsDiv"></div>
+                <div style="width:100%;" id="detailCharts"></div>
                 <div class="GaugeFullDivision" style="clear: both;">
                     <div class="GaugeDivision" style="margin-left: 60px;clear: both;" id="gaugeChart1"></div>
                     <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart2"></div>
@@ -207,9 +210,6 @@
                     <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart4"></div>
                     <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart5"></div>
                 </div>
-                <div style="width:100%;clear: both;" id="billSumchart"></div>
-                <div style="width:100%;clear: both;" id="billPassSumchart"></div>
-                <div style="width:100%;clear: both;" id="budgetSumchart"></div>
             </div>
         </div>
     </div>

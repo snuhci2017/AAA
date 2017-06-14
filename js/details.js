@@ -62,14 +62,17 @@ function removePersonFromChart(id) {
 
 function drawDetails() {
     drawSelectedPersonList(drawedIdList);
-    drawGaugeChart(drawedIdList);
-    drawBillSumChart(drawedIdList);
+
     drawDetailBarChart("billPassSumChart", "bills_pass", "통과 수(건)", drawedIdList);
     drawDetailBarChart("budgetSumChart", "budget", "예산 (억원)", drawedIdList);
     drawDetailBarChart("electionChart", "election", "당선 (회)", drawedIdList);
+    drawBillSumChart(drawedIdList);
+    drawGaugeChart(drawedIdList);
 }
 
 function drawGaugeChart(idList) {
+
+
     for (var i = 0; i < idList.length; i++) {
         var inclination = 0;
         for (var fi = 0; fi < masterData.length; fi++) {
@@ -188,7 +191,7 @@ function drawBillSumChart(idList) {
             .append("p")
             .attr("id", "billSumChart")
             .attr("align", "center")
-            .text("비교 분석할 의원을 위 Rank List에서 선택하세요");
+            .text("상세 비교 분석할 의원을 위 Rank List에서 선택하세요 (최대 5명)");
         return;
     }
 
@@ -204,7 +207,7 @@ function drawBillSumChart(idList) {
     var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left");
     var yAxisRight = d3.svg.axis().scale(yRight).orient("right");
 
-    var chartSvg = d3.select("#detail").append("svg")
+    var chartSvg = d3.select("#detailBillSumChartsDiv").append("svg")
         .attr("width", billChartSvgWidth)
         .attr("height", billChartSvgHeight)
         .attr("id", "billSumChart")
@@ -368,7 +371,7 @@ function drawDetailBarChart(divId, itemName, text, idList) {
 
     if (idList.length === 0) return;
 
-    var chartSvg = d3.select("#detail").append("svg")
+    var chartSvg = d3.select("#detailCharts").append("svg")
         .attr("width", svgWidth)
         .attr("height", svgHeight)
         .attr("id", divId)

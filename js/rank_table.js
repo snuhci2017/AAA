@@ -5,14 +5,15 @@ var maxForNormalization = {};
 var minForNormalization = {};
 var rankTable = d3.select("#rank_table");
 var rankTableHeadTr = rankTable.append("thead").append("tr");
+rankTable.select("thead").style("border-width", "0 0 1 0");
 var rankTableBody = rankTable.append("tbody");
 var color = d3.scale.category10();
 var masterData;
 var rankTableColumnWidth = 1044;
-var rankTableRowMaxHeight = 40;
-var rankTableRowMinHeight = 15;
-var rankTableMaxFontSize = 1.5;
-var rankTableMinFontSize = 0.01;
+var rankTableRowMaxHeight = 19;
+var rankTableRowMinHeight = 19;
+var rankTableMaxFontSize = 0.9;
+var rankTableMinFontSize = 0.9;
 
 var rankColor = function(i) {
     return colorbrewer.RdYlGn["6"][i % 6];
@@ -102,7 +103,6 @@ function sortList(priorityList) {
 function drawRankTable(priorityList, tableColumns, rankData) {
     // CLEAR
     rankTableHeadTr
-        .style("height", rankTableRowMaxHeight / 2)
         .selectAll("th")
         .data([])
         .exit()
@@ -130,9 +130,11 @@ function drawRankTable(priorityList, tableColumns, rankData) {
     rankTableHeadTr
         .append("th")
         .style("width", "40")
+        .style("text-align", "center")
         .text("RANK");
     rankTableHeadTr
         .append("th")
+        .style("text-align", "center")
         .style("width", "80")
         .text("NAME");
     var headSvg = rankTableHeadTr
@@ -141,7 +143,7 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .append("div")
         .append("svg")
         .attr("width", rankTableColumnWidth)
-        .attr("height", rankTableRowMaxHeight / 2)
+        .attr("height", rankTableRowMaxHeight)
         .append("g");
     headSvg
         .selectAll("rect")
@@ -177,7 +179,7 @@ function drawRankTable(priorityList, tableColumns, rankData) {
     var rows = rankTableBody
         .selectAll("tr")
         .data(rankData);
-        
+
     rows.enter()
         .append("tr")
         .style("height", function(d, i) { return y(i); })
