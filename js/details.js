@@ -101,8 +101,8 @@ function drawSelectedPersonList(idList) {
         .append("button")
         .style("vertical-align", "center")
         .style("font-size", "16px")
-        .style("height", "30")
-        .style("color", "#333333")
+        .style("height", "25")
+        .style("color", "#555555")
         .text("X")
         .on("click", function(d) {
             removePersonFromChart(d);
