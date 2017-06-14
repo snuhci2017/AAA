@@ -154,10 +154,10 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .attr("width", function(d) { return x(d.x); })
         .attr("y", 0)
         .attr("height", "100%")
-        .style("opacity", "0.0")
-        .transition()
-        .delay(300)
-        .duration(300)
+        // .style("opacity", "0.0")
+        // .transition()
+        // // .delay(100)
+        // .duration(100)
         .style("opacity", "0.8")
         .style("fill", function(d, i) { return rankColor(i); })
         .text(function(d) { return x(d.x0); });
@@ -187,30 +187,33 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .style("font-size", function(d, i) { return fontScale(i) + "em"; })
         .style("font-weight", "bold")
         .attr("class", function(d, i) { return (i % 2 === 1 ? "even_tr" : "odd_tr"); });
-    rows.on("mouseover", function(d){
+    rows.on("mouseover", function(d) {
         hightlightGeo(d.precinct);
-    }).on("mouseout", function(d){
+    }).on("mouseout", function(d) {
         deHighlightGeo(d.precinct);
     });
-    // .style("text-decoration", "underline");
-
 
     var cells = rows.selectAll('td')
         .data(function(row) {
             return ["rank", "name"].map(function(column) {
-                return { column: column, value: row[column] };
+                console.log({ column: column, value: row[column], rank: row.rank });
+                return { column: column, value: row[column], rank: row.rank };
             });
         });
 
     cells.enter()
         .append('td')
-        .style("opacity", "0.0")
-        .transition()
-        .delay(300)
-        .duration(300)
-        .style("opacity", "1.0")
+        // .style("opacity", "0.5")
+        // .transition()
+        // // .delay(100)
+        // .duration(100)
+        // .style("opacity", "1.0")
         .attr("align", "center")
+        .style("opacity", function(d, i) {
+            return 0.6 + 0.5 * (rankData.length - d.rank) / rankData.length;
+        })
         .text(function(d) { return d.value; });
+
 
     // STACKED BAR CHART
     var stack = d3.layout.stack()(
@@ -247,25 +250,25 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .attr("width", function(d) { return x(d.x); })
         .attr("y", 0)
         .style("height", "99%")
-        .style("opacity", "0.0")
-        .transition()
-        .delay(300)
-        .duration(300)
+        // .style("opacity", "0.5")
+        // .transition()
+        // // .delay(100)
+        // .duration(100)
         .style("opacity", "0.8")
         .style("fill", function(d, i) { return rankColor(i); });
 
     cells.exit()
-        .transition()
-        .delay(200)
-        .duration(500)
-        .style('opacity', 0.0)
+        // .transition()
+        // // .delay(100)
+        // .duration(100)
+        // .style('opacity', 0.5)
         .remove();
 
     rows.exit()
-        .transition()
-        .delay(200)
-        .duration(500)
-        .style('opacity', 0.0)
+        // .transition()
+        // // .delay(100)
+        // .duration(100)
+        // .style('opacity', 0.5)
         .remove();
 
     rows.on("click", function(d) { selectPerson(d['id']); });
