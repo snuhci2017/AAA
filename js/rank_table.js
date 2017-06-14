@@ -39,27 +39,26 @@ d3.tsv("data/master_table.tsv", function(d) {
     init();
 });
 
-
-function highlightperson(name){
+function highlightperson(name) {
     var id = 0;
-    for(i=0; i<masterData.length; i++){
-        if(masterData[i].name === name){
+    for (i = 0; i < masterData.length; i++) {
+        if (masterData[i].name === name) {
             id = masterData[i].id;
             break;
         }
     }
-    d3.select("#person"+id).style("background-color", "rgba(30, 144, 255, 0.6)");
+    d3.select("#person" + id).style("background-color", "rgba(30, 144, 255, 0.6)");
 }
 
-function deHighlightperson(name){
+function deHighlightperson(name) {
     var id = 0;
-    for(i=0; i<masterData.length; i++){
-        if(masterData[i].name === name){
+    for (i = 0; i < masterData.length; i++) {
+        if (masterData[i].name === name) {
             id = masterData[i].id;
             break;
         }
     }
-    d3.select("#person"+id).style("background-color", "");
+    d3.select("#person" + id).style("background-color", "");
 }
 
 function init() {
@@ -219,7 +218,6 @@ function drawRankTable(priorityList, tableColumns, rankData) {
     var cells = rows.selectAll('td')
         .data(function(row) {
             return ["rank", "name"].map(function(column) {
-                console.log({ column: column, value: row[column], rank: row.rank });
                 return { column: column, value: row[column], rank: row.rank };
             });
         });
@@ -236,7 +234,6 @@ function drawRankTable(priorityList, tableColumns, rankData) {
             return 0.6 + 0.5 * (rankData.length - d.rank) / rankData.length;
         })
         .text(function(d) { return d.value; });
-
 
     // STACKED BAR CHART
     var stack = d3.layout.stack()(
