@@ -10,7 +10,7 @@
     <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
     <script src="js/c3.min.js"></script>
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <style>
         /*@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);*/
@@ -19,7 +19,6 @@
             border: none;
             padding: 0px;
         }
-        
         .odd_tr:hover {
             background-color: rgba(30, 144, 255, 0.6);
         }
@@ -67,6 +66,7 @@
             font-size: 0.9px;
             text-anchor: middle;
             font-weight: bold;
+            fill: #555
         }
         
         .g_precincts {
@@ -79,7 +79,7 @@
         
         .province.selected {
             fill: none;
-            stroke: #555;
+            stroke: #333;
             stroke-opacity: 1.0;
             opacity: 1.0;
         }
