@@ -360,7 +360,8 @@ function drawDetailBarChart(divId, itemName, text, idList) {
     var yLeft = d3.scale.linear().rangeRound([height, 0]);
     //if (itemName === "election") yLeft = d3.scale.linear().range([height, 0]);
     var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left").tickFormat(d3.format("d"));
-    //var yAxisRight = d3.svg.axis().scale(yLeft).orient("right").tickFormat(d3.format("d"));
+    var ySubAxis = d3.svg.axis().scale(yLeft).orient("right").tickSize(width);
+    var xAxis = d3.svg.axis().scale(x).orient("bottom");
 
     d3.select("#" + divId)
         .remove();
@@ -389,6 +390,23 @@ function drawDetailBarChart(divId, itemName, text, idList) {
     var max = d3.max(data, function(d) { return d[itemName]; });
     yLeft.domain([0, max]).nice();
 
+    var subAxis = chartSvg.append("g")
+        .attr("class", "y axis axisSub")
+        .call(ySubAxis);
+    subAxis.selectAll(".tick line")
+        .style("stroke", "#DDDDDD");
+    subAxis.selectAll("text").remove();
+    subAxis.selectAll("path").remove();
+    chartSvg.append("g")
+        .attr("class", "y axis axisLeft")
+        .call(yAxisLeft)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 7)
+        .attr("dy", ".51em")
+        .style("text-anchor", "end")
+        .text(text);
+
     var layer = chartSvg
         .append("g")
         .selectAll("rect")
@@ -401,27 +419,10 @@ function drawDetailBarChart(divId, itemName, text, idList) {
         .attr("y", function(d) { return yLeft(d[itemName]); })
         .attr("height", function(d) { return height - yLeft(d[itemName]); });
 
-    chartSvg.append("g")
-        .attr("class", "y axis axisLeft")
-        .call(yAxisLeft)
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".51em")
-        .style("text-anchor", "end")
-        .text(text);
-
-    
-    /*
-    chartSvg.append("g")
-        .attr("class", "y axis axisRight")
-        .style("text-anchor", "start")
-        .attr("transform", "translate(" + (svgWidth - 75) + ",0)")
-        .call(yAxisRight)
-        .append("text")
-        .attr("y", -16)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .attr("transform", "rotate(-90)")
-        .text(text);*/
+    var xAxisPos = chartSvg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .selectAll(".tick")
+        .remove();
 }
