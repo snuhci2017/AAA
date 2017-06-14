@@ -20,7 +20,7 @@ function drawRadar(id, d) {
     var data = []
 
     d3.select(id).select("svg").remove();
-    var g = d3.select(id).append("svg").attr("width", cfg.width*1.5).attr("height", cfg.height*1.5).append("g");
+    var g = d3.select(id).append("svg").attr("width", cfg.width*1.2).attr("height", cfg.height*1.2).append("g");
     g.attr("transform","translate(20,10)");
 
     var tooltip;
