@@ -177,14 +177,14 @@ function drawRankTable(priorityList, tableColumns, rankData) {
     var rows = rankTableBody
         .selectAll("tr")
         .data(rankData);
-
+        
     rows.enter()
         .append("tr")
         .style("height", function(d, i) { return y(i); })
         .attr("id", function(d) { return "person" + d.id; })
         .style("font-size", function(d, i) { return fontScale(i) + "em"; })
         .style("font-weight", "bold")
-        .attr("class", function(d, i) { return (i % 2 === 1 ? "second_tr" : ""); });
+        .attr("class", function(d, i) { return (i % 2 === 1 ? "even_tr" : "odd_tr"); });
     // .style("text-decoration", "underline");
 
 
