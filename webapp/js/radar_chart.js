@@ -24,6 +24,9 @@ function drawRadar(id, d) {
     g.attr("transform","translate(20,10)");
 
     var tooltip;
+    var rankColor = function(i) {
+    return colorbrewer.RdYlGn["6"][i % 6];
+    };
 
     drawFrame();
     var maxAxisValues = [];
@@ -62,13 +65,15 @@ function drawRadar(id, d) {
                 maxAxisValues[i].y = cfg.height / 2 * (1 - cfg.factor * Math.cos(i * cfg.radians / total));
                 return maxAxisValues[i].y;
             })
-            .attr("class", "line").style("stroke", "grey").style("stroke-width", "1px");
-
+            .attr("class", "line")
+            .style("stroke", "grey").style("stroke-width", "1px");
+       
         var text = axis.append("text").attr("class", "legend")
             .text(function(d) { return d }).style("font-family", "Arial").style("font-size", "15px")
             .attr("transform", function(d, i) { return "translate(0, -10)"; })
-            .attr("x", function(d, i) { return cfg.width / 2 * (1 - cfg.factor * Math.sin(i * cfg.radians / total))-(d.length*6/2); })
-            .attr("y", function(d, i) { return cfg.height / 2 * (1 - cfg.factor * Math.cos(i * cfg.radians / total))+13; });    }
+            .attr("x", function(d, i) { console.log(rankColor(i)); return cfg.width / 2 * (1 - cfg.factor * Math.sin(i * cfg.radians / total))-(d.length*6/2); })
+            .attr("y", function(d, i) { return cfg.height / 2 * (1 - cfg.factor * Math.cos(i * cfg.radians / total))+13; });
+    }
 
     function reCalculatePoints() {
         g.selectAll(".nodes")
