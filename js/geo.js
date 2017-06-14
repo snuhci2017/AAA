@@ -1,19 +1,29 @@
-
-        function updateGeomap(data) {
-			var maxVal = -1;
-			var minVal = 2;
-            d3.select("#geo").selectAll(".g_precinct").select("path.precinct").style("fill", function(d) {
-                    for (i = 0; i < data.length; i++) {
-                        if (data[i].score > maxVal) maxVal = data[i].score;
-                        if (data[i].score < minVal) minVal = data[i].score;
-                        if (d.properties.precinct_name === data[i].precinct) {
-                            score = data[i].score;
-                        }
+function updateGeomap(data) {
+		var maxVal = -1;
+		var minVal = 2;
+        d3.select("#geo").selectAll(".g_precinct").select("path.precinct").style("fill", function(d) {
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].score > maxVal) maxVal = data[i].score;
+                    if (data[i].score < minVal) minVal = data[i].score;
+                    if (d.properties.precinct_name === data[i].precinct) {
+                        score = data[i].score;
                     }
-                    return d3.hcl(-97, 150, 255 - (255 * ((score-minVal)/(maxVal-minVal))));
-                })
-                .style("stroke", "#000");
-        }
+                }
+                return d3.hcl(-97, 150, 200 - (255 * ((score-minVal)/(maxVal-minVal))));
+            })
+            .style("stroke", "#000");
+}
+function hightlightGeo(data){
+	d3.select("#geo").selectAll(".g_precinct").select("path.precinct").filter(function(d){
+		return (d.properties.precinct_name === data);
+	}).style({'stroke': 'red',"stroke-width": "0.3px"});
+}
+
+function deHighlightGeo(data){
+	d3.select("#geo").selectAll(".g_precinct").select("path.precinct").filter(function(d){
+		return (d.properties.precinct_name === data);
+	}).style({'stroke': '#777',"stroke-width": "0.07px"});
+}
 
 function drawGeo(id, data){
 	var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
@@ -113,7 +123,7 @@ function drawGeo(id, data){
 		g_precincts.select("path.precinct")
 			.style("fill", function(d) {
 				// Write code in here! 
-				return d3.hcl(-97, 150, 255 - (255 * ((d.properties.bills-min_bill)/(largest_bill-min_bill))));})
+				return d3.hcl(-97, 150, 200 - (255 * ((d.properties.bills-min_bill)/(largest_bill-min_bill))));})
 			.style("stroke","#000");
 			//.on("click", clicked)
 
