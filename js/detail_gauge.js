@@ -28,7 +28,7 @@ function drawGaugeChart(idList) {
                     }
                 },
                 color: {
-                    pattern: ["#a50f15"], // the three color levels for the percentage values.
+                    pattern: ["#fb6a4a"], // the three color levels for the percentage values.
                     threshold: {
                         //            unit: 'value', // percentage is default
                         //            max: 200, // 100 is default
