@@ -360,7 +360,7 @@ function drawDetailBarChart(divId, itemName, text, idList) {
     var yLeft = d3.scale.linear().rangeRound([height, 0]);
     //if (itemName === "election") yLeft = d3.scale.linear().range([height, 0]);
     var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left").tickFormat(d3.format("d"));
-    var yAxisRight = d3.svg.axis().scale(yLeft).orient("right").tickFormat(d3.format("d"));
+    //var yAxisRight = d3.svg.axis().scale(yLeft).orient("right").tickFormat(d3.format("d"));
 
     d3.select("#" + divId)
         .remove();
@@ -411,6 +411,8 @@ function drawDetailBarChart(divId, itemName, text, idList) {
         .style("text-anchor", "end")
         .text(text);
 
+    
+    /*
     chartSvg.append("g")
         .attr("class", "y axis axisRight")
         .style("text-anchor", "start")
@@ -421,5 +423,5 @@ function drawDetailBarChart(divId, itemName, text, idList) {
         .attr("dy", ".71em")
         .style("text-anchor", "end")
         .attr("transform", "rotate(-90)")
-        .text(text);
+        .text(text);*/
 }
