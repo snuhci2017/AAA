@@ -187,6 +187,11 @@ function drawRankTable(priorityList, tableColumns, rankData) {
         .style("font-size", function(d, i) { return fontScale(i) + "em"; })
         .style("font-weight", "bold")
         .attr("class", function(d, i) { return (i % 2 === 1 ? "even_tr" : "odd_tr"); });
+    rows.on("mouseover", function(d){
+        hightlightGeo(d.precinct);
+    }).on("mouseout", function(d){
+        deHighlightGeo(d.precinct);
+    });
     // .style("text-decoration", "underline");
 
 
