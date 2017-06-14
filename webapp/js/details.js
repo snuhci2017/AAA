@@ -90,12 +90,19 @@ function drawSelectedPersonList(idList) {
             return "";
         })
         .style("background-color", function(d, i) { return detailColor(i); })
+        .style("color", "white")
+        .style("font-size", "36px")
+        .style("font-weight", "bold")
         .style("float", "left")
         .style("width", "20%")
         .attr("id", function(d, i) { return "person" + i; })
         .attr("align", "center")
         .attr("class", "person")
         .append("button")
+        .style("vertical-align", "center")
+        .style("font-size", "16px")
+        .style("height", "30")
+        .style("color", "#333333")
         .text("X")
         .on("click", function(d) {
             removePersonFromChart(d);
