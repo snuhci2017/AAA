@@ -44,7 +44,6 @@ function addPersonToChart(id) {
     }
 
     drawedIdList.push(id);
-    console.log("add", drawedIdList);
     drawDetails();
 }
 
@@ -57,10 +56,8 @@ function removePersonFromChart(id) {
         var name = "#gaugeChart" + (i + 1).toString();
         d3.select(name).select("svg").remove();
     }
-    console.log("remove", id, drawedIdList);
     var search = drawedIdList.indexOf(id);
     if (search >= 0) drawedIdList.splice(search, 1);
-    console.log("removed", id, drawedIdList);
     drawDetails();
 }
 
