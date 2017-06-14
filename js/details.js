@@ -4,14 +4,18 @@ var billPassSumData;
 var budgetSumData;
 var parseTime = d3.timeParse("%y-%m");
 
-var billChartSvgWidth = 1200;
+var billChartSvgWidth = 1183;
 var billChartSvgHeight = 300;
 var billMargin = {
     top: 20,
-    right: 60,
+    right: 30,
     bottom: 50,
     left: 40
 };
+var detailChartSvgWidth = 1200;
+var detailChartSvgHeight = 150;
+
+var maxPersonCount = 5;
 
 var detailColor = function(i) {
     return colorbrewer.Paired["10"][i % 5 * 2 + 1];
@@ -30,7 +34,7 @@ function initBillSum() {
 }
 
 function addPersonToChart(id) {
-    if (drawedIdList.length >= 5) {
+    if (drawedIdList.length >= maxPersonCount) {
         alert("Limited to 5 items");
         return;
     }
@@ -68,85 +72,6 @@ function drawDetails() {
     drawDetailBarChart("electionChart", "election", "당선 (회)", drawedIdList);
     drawBillSumChart(drawedIdList);
     drawGaugeChart(drawedIdList);
-}
-
-function drawGaugeChart(idList) {
-
-
-    for (var i = 0; i < idList.length; i++) {
-        var inclination = 0;
-        for (var fi = 0; fi < masterData.length; fi++) {
-            if (+masterData[fi].id === +idList[i]) {
-                inclination = masterData[fi].conservative * 20;
-            }
-        }
-        if (inclination > 40) {
-            c3.generate({
-                bindto: "#gaugeChart" + (i + 1).toString(),
-                data: {
-                    columns: [
-                        ['tendency', inclination]
-                    ],
-                    type: 'gauge',
-                    onclick: function(d, i) {},
-                    onmouseover: function(d, i) {},
-                    onmouseout: function(d, i) {}
-                },
-                gauge: {
-                    label: {
-                        format: function(value, ratio) {
-                            return "conservative";
-                        }
-                    }
-                },
-                color: {
-                    pattern: ["#6baed6", "#3182bd", "#08519c"], // the three color levels for the percentage values.
-                    threshold: {
-                        //            unit: 'value', // percentage is default
-                        //            max: 200, // 100 is default
-                        values: [61, 81, 99]
-                    }
-                },
-                size: {
-                    width: 200,
-                    height: 100
-                }
-            });
-        } else {
-            inclination = 100 - inclination;
-            c3.generate({
-                bindto: "#gaugeChart" + (i + 1).toString(),
-                data: {
-                    columns: [
-                        ['tendency', inclination]
-                    ],
-                    type: 'gauge',
-                    onclick: function(d, i) {},
-                    onmouseover: function(d, i) {},
-                    onmouseout: function(d, i) {}
-                },
-                gauge: {
-                    label: {
-                        format: function(value, ratio) {
-                            return "progressive";
-                        }
-                    }
-                },
-                color: {
-                    pattern: ["#fb6a4a", "#de2d26", "#a50f15"], // the three color levels for the percentage values.
-                    threshold: {
-                        //            unit: 'value', // percentage is default
-                        //            max: 200, // 100 is default
-                        values: [61, 81, 99]
-                    }
-                },
-                size: {
-                    width: 200,
-                    height: 100
-                }
-            });
-        }
-    }
 }
 
 function drawSelectedPersonList(idList) {
@@ -348,18 +273,21 @@ function drawBillSumChart(idList) {
 function drawDetailBarChart(divId, itemName, text, idList) {
     var margin = {
         top: 10,
-        right: 10,
+        right: 42,
         bottom: 10,
         left: 10
     };
     // chart initialization 
     //var width = billChartSvgWidth - billMargin.left - billMargin.right,
     //    height = billChartSvgHeight - billMargin.top - billMargin.bottom;
-    var svgWidth = billChartSvgWidth * 0.98,
-        svgHeight = billChartSvgHeight / 2;
+    var svgWidth = detailChartSvgWidth,
+        svgHeight = detailChartSvgHeight;
     var height = svgHeight - margin.top - margin.bottom;
-    var width = svgWidth / 5 * idList.length - margin.left - margin.right;
-    var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.3);
+    var width = svgWidth - margin.left - margin.right;
+
+    // var xScaleWidth =
+    var xWidth = width - 40;
+    var x = d3.scale.ordinal().rangeRoundBands([0, xWidth / maxPersonCount * idList.length], 0);
     var yLeft = d3.scale.linear().rangeRound([height, 0]);
     //if (itemName === "election") yLeft = d3.scale.linear().range([height, 0]);
     var yAxisLeft = d3.svg.axis().scale(yLeft).orient("left").tickFormat(d3.format("d"));
@@ -372,7 +300,7 @@ function drawDetailBarChart(divId, itemName, text, idList) {
     if (idList.length === 0) return;
 
     var chartSvg = d3.select("#detailCharts").append("svg")
-        .attr("width", svgWidth)
+        .attr("width", width)
         .attr("height", svgHeight)
         .attr("id", divId)
         .append("g")
@@ -410,17 +338,28 @@ function drawDetailBarChart(divId, itemName, text, idList) {
         .style("text-anchor", "end")
         .text(text);
 
-    var layer = chartSvg
-        .append("g")
+    var xPadding = 40;
+    chartSvg.append("g")
         .selectAll("rect")
         .data(data)
         .enter()
         .append("rect")
         .style("fill", function(d, i) { return detailColor(i); })
-        .attr("x", function(d) { return x(d.id) - billMargin.left / 2; })
-        .attr("width", x.rangeBand())
+        .attr("x", function(d) { return x(d.id) + xPadding; })
+        .attr("width", x.rangeBand() - xPadding * 2)
         .attr("y", function(d) { return yLeft(d[itemName]); })
         .attr("height", function(d) { return height - yLeft(d[itemName]); });
+
+    chartSvg.append("g")
+        .selectAll("text")
+        .data(data)
+        .enter()
+        .append("text")
+        .text(function(d) { return Math.round(d[itemName]); })
+        .attr("text-anchor", "middle")
+        .style("fill", "#FFFFFF")
+        .attr("x", function(d) { return (x(d.id) * 2 + x.rangeBand()) / 2; })
+        .attr("y", function(d) { return yLeft(d[itemName]) + 12; });
 
     var xAxisPos = chartSvg.append("g")
         .attr("class", "x axis")

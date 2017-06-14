@@ -11,7 +11,7 @@ function drawGaugeChart(idList) {
                 bindto: "#gaugeChart" + (i + 1).toString(),
                 data: {
                     columns: [
-                        ['tendency', inclination]
+                        ['cons. tendency', inclination]
                     ],
                     type: 'gauge',
                     onclick: function(d, i) {},
@@ -44,7 +44,7 @@ function drawGaugeChart(idList) {
                 bindto: "#gaugeChart" + (i + 1).toString(),
                 data: {
                     columns: [
-                        ['tendency', inclination]
+                        ['prog. tendency', inclination]
                     ],
                     type: 'gauge',
                     onclick: function(d, i) {},
