@@ -39,6 +39,29 @@ d3.tsv("data/master_table.tsv", function(d) {
     init();
 });
 
+
+function highlightperson(name){
+    var id = 0;
+    for(i=0; i<masterData.length; i++){
+        if(masterData[i].name === name){
+            id = masterData[i].id;
+            break;
+        }
+    }
+    d3.select("#person"+id).style("background-color", "rgba(30, 144, 255, 0.6)");
+}
+
+function deHighlightperson(name){
+    var id = 0;
+    for(i=0; i<masterData.length; i++){
+        if(masterData[i].name === name){
+            id = masterData[i].id;
+            break;
+        }
+    }
+    d3.select("#person"+id).style("background-color", "");
+}
+
 function init() {
     // var rankAndName = { RANK: 60, NAME: 120 };
     // rankTableHeadTr.style("padding", "1px")
