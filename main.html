@@ -1,9 +1,10 @@
 <html>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/c3.css"/>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/c3.css" />
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
 <head>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -22,9 +23,11 @@
         .odd_tr:hover {
             background-color: rgba(30, 144, 255, 0.6);
         }
+        
         .even_tr:hover {
             background-color: rgba(30, 144, 255, 0.6);
         }
+        
         .even_tr {
             background-color: #DDDDDD;
         }
@@ -154,11 +157,11 @@
             margin-left: 10px;
             margin-top: 10px;
         }
-
+        
         .GaugeDivision {
             width: 200px;
             height: 100px;
-            margin-top:10px;
+            margin-top: 10px;
             display: inline-block;
         }
     </style>
@@ -166,49 +169,49 @@
 
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Assembly activity analysis</a>
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Assembly activity analysis</a>
+            </div>
         </div>
-      </div>
     </nav>
-    
+
     <div class="container">
-    <div class="Division" style="overflow:auto;">
-        <div id="legend" style="display:inline-block;" align="left"></div>
-        <table id="rank_table" cellpadding="0" cellspacing="0"></table>
-    </div>
-    <!--
+        <div class="Division" style="overflow:auto;">
+            <div id="legend" style="display:inline-block;" align="left"></div>
+            <table id="rank_table" cellpadding="0" cellspacing="0"></table>
+        </div>
+        <!--
     <div class="Division" style="overflow:auto">
         <div id="geo"></div>
         <div class="wrapper" id="chart"></div>
     </div>
     -->
-    <div style="position:absolute;top:50px;left:750px;">
-        <div id="geo"></div>
-    </div>
-    <div class="wrapper" id="chart" style="position:absolute;top:520px;left:700px;"></div>
-    <div class="FullDivision">
-        <div style="width:100%;" id="detail">
-            <div style="width:100%;">
-                <div style="width:5%;float:left;">&nbsp;</div>
-                <div style="width:90%;float:left;">
-                    <div style="width:100%;float:left;" id="selection"></div>
-                </div>
-                <div style="width:5%;float:left;">&nbsp;</div>
-            </div>
-            <div class="GaugeFullDivision" style="clear: both;">
-                <div class="GaugeDivision" style="margin-left: 60px;clear: both;" id="gaugeChart1"></div>
-                <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart2"></div>
-                <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart3"></div>
-                <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart4"></div>
-                <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart5"></div>
-            </div>
-            <div style="width:100%;clear: both;" id="billSumchart"></div>
-            <div style="width:100%;clear: both;" id="billPassSumchart"></div>
-            <div style="width:100%;clear: both;" id="budgetSumchart"></div>
+        <div style="position:absolute;top:50px;left:750px;">
+            <div id="geo"></div>
         </div>
-    </div>
+        <div class="wrapper" id="chart" style="position:absolute;top:520px;left:700px;"></div>
+        <div class="FullDivision">
+            <div style="width:100%;" id="detail">
+                <div style="width:100%;">
+                    <div style="width:5%;float:left;">&nbsp;</div>
+                    <div style="width:90%;float:left;">
+                        <div style="width:100%;float:left;" id="selection"></div>
+                    </div>
+                    <div style="width:5%;float:left;">&nbsp;</div>
+                </div>
+                <div class="GaugeFullDivision" style="clear: both;">
+                    <div class="GaugeDivision" style="margin-left: 60px;clear: both;" id="gaugeChart1"></div>
+                    <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart2"></div>
+                    <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart3"></div>
+                    <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart4"></div>
+                    <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart5"></div>
+                </div>
+                <div style="width:100%;clear: both;" id="billSumchart"></div>
+                <div style="width:100%;clear: both;" id="billPassSumchart"></div>
+                <div style="width:100%;clear: both;" id="budgetSumchart"></div>
+            </div>
+        </div>
     </div>
     </div>
     <script src="js/rank_table.js"></script>
