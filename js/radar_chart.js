@@ -20,7 +20,8 @@ function drawRadar(id, d) {
     var data = []
 
     d3.select(id).select("svg").remove();
-    var g = d3.select(id).append("svg").attr("width", cfg.width).attr("height", cfg.height).append("g");
+    var g = d3.select(id).append("svg").attr("width", cfg.width*1.5).attr("height", cfg.height*1.5).append("g");
+    g.attr("transform","translate(20,10)");
 
     var tooltip;
 
@@ -63,12 +64,11 @@ function drawRadar(id, d) {
             })
             .attr("class", "line").style("stroke", "grey").style("stroke-width", "1px");
 
-        axis.append("text").attr("class", "legend")
-            .text(function(d) { return d }).style("font-family", "Arial").style("font-size", "10px")
+        var text = axis.append("text").attr("class", "legend")
+            .text(function(d) { return d }).style("font-family", "Arial").style("font-size", "15px")
             .attr("transform", function(d, i) { return "translate(0, -10)"; })
-            .attr("x", function(d, i) { return cfg.width / 2 * (1 - cfg.factorLegend * Math.sin(i * cfg.radians / total)) - 20 * Math.sin(i * cfg.radians / total); })
-            .attr("y", function(d, i) { return cfg.height / 2 * (1 - Math.cos(i * cfg.radians / total)) + 20 * Math.cos(i * cfg.radians / total); });
-    }
+            .attr("x", function(d, i) { return cfg.width / 2 * (1 - cfg.factor * Math.sin(i * cfg.radians / total))-(d.length*6/2); })
+            .attr("y", function(d, i) { return cfg.height / 2 * (1 - cfg.factor * Math.cos(i * cfg.radians / total))+13; });    }
 
     function reCalculatePoints() {
         g.selectAll(".nodes")
