@@ -146,16 +146,15 @@
             float: left;
             width: 1200px;
             height: 1000px;
-            border: 2px solid #000000;
+            border: 2px solid #FFFFFF;
             margin-left: 10px;
-            margin-top: 10px;
+            margin-top: 30px;
         }
         
         .GaugeFullDivision {
             float: left;
-            width: 1200px;
-            height: 120px;
-            margin-left: 10px;
+            /*height: 120px;
+            margin-left: 10px;*/
             margin-top: 10px;
         }
         
@@ -195,20 +194,24 @@
         <div class="FullDivision">
             <div style="width:100%;" id="detail">
                 <div style="width:100%;" id="detailHead">
-                    <div style="width:5%;float:left;">&nbsp;</div>
-                    <div style="width:90%;float:left;">
+                    <div style="width:42px;float:left;">&nbsp;</div>
+                    <div style="width:1106px;float:left;">
                         <div style="width:100%;float:left;" id="selection"></div>
                     </div>
-                    <div style="width:5%;float:left;">&nbsp;</div>
+                    <div style="width:52px;float:left;">&nbsp;</div>
                 </div>
-                <div style="width:100%;" id="detailBillSumChartsDiv"></div>
-                <div style="width:100%;" id="detailCharts"></div>
-                <div class="GaugeFullDivision" style="clear: both;">
-                    <div class="GaugeDivision" style="margin-left: 60px;clear: both;" id="gaugeChart1"></div>
-                    <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart2"></div>
-                    <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart3"></div>
-                    <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart4"></div>
-                    <div class="GaugeDivision" style="margin-left: 15px;clear: both;" id="gaugeChart5"></div>
+                <div style="width:100%;float:left;clear: both;" id="detailBillSumChartsDiv"></div>
+                <div style="width:100%;float:left;clear: both;" id="detailCharts"></div>
+                <div class="GaugeFullDivision">
+                    <div style="width:42px;float:left;">&nbsp;</div>
+                    <div style="width: 1106px;float:left;">
+                        <div class="GaugeDivision" style="float:left;width:221px;" id="gaugeChart1" align="center"></div>
+                        <div class="GaugeDivision" style="float:left;width:221px;" id="gaugeChart2" align="center"></div>
+                        <div class="GaugeDivision" style="float:left;width:221px;" id="gaugeChart3" align="center"></div>
+                        <div class="GaugeDivision" style="float:left;width:221px;" id="gaugeChart4" align="center"></div>
+                        <div class="GaugeDivision" style="float:left;width:221px;" id="gaugeChart5" align="center"></div>
+                    </div>
+                    <div style="width:52px;float:left;">&nbsp;</div>
                 </div>
             </div>
         </div>
@@ -218,6 +221,7 @@
     <script src="js/radar_chart.js"></script>
     <script src="js/geo.js"></script>
     <script src="js/details.js"></script>
+    <script src="js/detail_gauge.js"></script>
     <script>
         var d = [{
             axis: "bills",
