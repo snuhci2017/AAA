@@ -143,6 +143,20 @@ function drawGeo(id, data){
 	
 		d3.selectAll(".province").style("stroke-width", 2 / scale + "px");
 		d3.selectAll(".precinct").style("stroke-width", 1 / scale + "px");
+
+		g_precincts.on("mouseover", function(data){
+			d3.select("#geo").selectAll(".g_precinct").select("path.precinct").filter(function(d){
+			return (d.properties.precinct_name === data.properties.precinct_name);
+		}).style({'stroke': 'red',"stroke-width": "0.3px"});
+			highlightperson(data.properties.assembly);
+		});
+
+		g_precincts.on("mouseout", function(data){
+			d3.select("#geo").selectAll(".g_precinct").select("path.precinct").filter(function(d){
+			return (d.properties.precinct_name === data.properties.precinct_name);
+		}).style({'stroke': '#777',"stroke-width": "0.07px"});
+			deHighlightperson(data.properties.assembly);
+		});
 	});
 	/*
 	function clicked(d){
