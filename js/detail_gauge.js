@@ -3,10 +3,9 @@ function drawGaugeChart(idList) {
         var inclination = 0;
         for (var fi = 0; fi < masterData.length; fi++) {
             if (+masterData[fi].id === +idList[i]) {
-                inclination = masterData[fi].conservative * 20;
+                inclination = masterData[fi].progressive * 20;
             }
         }
-        if (inclination > 40) {
             c3.generate({
                 bindto: "#gaugeChart" + (i + 1).toString(),
                 data: {
@@ -14,23 +13,26 @@ function drawGaugeChart(idList) {
                         ['cons. tendency', inclination]
                     ],
                     type: 'gauge',
-                    onclick: function(d, i) {},
-                    onmouseover: function(d, i) {},
-                    onmouseout: function(d, i) {}
                 },
                 gauge: {
                     label: {
                         format: function(value, ratio) {
-                            return "conservative";
+                            if(value > 0 && value < 41){
+                                return "conservative";
+                            } else if(value > 40 && value < 80){
+                                return "neutral";
+                            } else {
+                                return "progressive";
+                            }
                         }
                     }
                 },
                 color: {
-                    pattern: ["#6baed6", "#3182bd", "#08519c"], // the three color levels for the percentage values.
+                    pattern: ["#a50f15"], // the three color levels for the percentage values.
                     threshold: {
                         //            unit: 'value', // percentage is default
                         //            max: 200, // 100 is default
-                        values: [61, 81, 99]
+                        values: [0]
                     }
                 },
                 size: {
@@ -38,39 +40,7 @@ function drawGaugeChart(idList) {
                     height: 100
                 }
             });
-        } else {
-            inclination = 100 - inclination;
-            c3.generate({
-                bindto: "#gaugeChart" + (i + 1).toString(),
-                data: {
-                    columns: [
-                        ['prog. tendency', inclination]
-                    ],
-                    type: 'gauge',
-                    onclick: function(d, i) {},
-                    onmouseover: function(d, i) {},
-                    onmouseout: function(d, i) {}
-                },
-                gauge: {
-                    label: {
-                        format: function(value, ratio) {
-                            return "progressive";
-                        }
-                    }
-                },
-                color: {
-                    pattern: ["#fb6a4a", "#de2d26", "#a50f15"], // the three color levels for the percentage values.
-                    threshold: {
-                        //            unit: 'value', // percentage is default
-                        //            max: 200, // 100 is default
-                        values: [61, 81, 99]
-                    }
-                },
-                size: {
-                    width: 200,
-                    height: 100
-                }
-            });
-        }
     }
+    d3.selectAll(".c3-chart-arcs-gauge-min").remove();
+    d3.selectAll(".c3-chart-arcs-gauge-max").remove();
 }
