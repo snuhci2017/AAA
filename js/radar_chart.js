@@ -21,9 +21,8 @@ function drawRadar(id, d) {
 
     d3.select(id).select("svg").remove();
     var g = d3.select(id).append("svg").attr("width", cfg.width*1.2).attr("height", cfg.height*1.2).append("g");
-    g.attr("transform","translate(20,10)");
+    g.attr("transform","translate(20,10)"); // For proper radar chart view
 
-    var tooltip;
     var rankColor = function(i) {
     return colorbrewer.RdYlGn["6"][i % 6];
     };
@@ -38,6 +37,7 @@ function drawRadar(id, d) {
     drawPolygon();
     drawnode();
 
+    // Draw radar chart Frame 
     function drawFrame() {
         for (var j = 0; j < cfg.levels; j++) {
             var levelFactor = cfg.factor * radius * ((j + 1) / cfg.levels);
@@ -51,6 +51,7 @@ function drawRadar(id, d) {
         }
     }
 
+    // Draw axis
     function drawAxis() {
         var axis = g.selectAll(".axis").data(allAxis).enter().append("g").attr("class", "axis");
 
@@ -75,6 +76,7 @@ function drawRadar(id, d) {
             .attr("y", function(d, i) { return cfg.height / 2 * (1 - cfg.factor * Math.cos(i * cfg.radians / total))+13; });
     }
 
+    // When move nodes, recalculate node points
     function reCalculatePoints() {
         g.selectAll(".nodes")
             .data(d, function(j, i) {
@@ -111,6 +113,7 @@ function drawRadar(id, d) {
         });
     }
 
+    // Draw nodes
     function drawnode() {
         g.selectAll(".nodes")
             .data(d).enter()
@@ -130,10 +133,8 @@ function drawRadar(id, d) {
             .text(function(j) { return Math.max(j.value, 0) });
     }
 
-    tooltip = g.append("text").style("opacity", 0).style("font-family", "Arial").style("font-size", 13);
-
     function moveEnd(obj, i) {
-        sortList(data);
+        sortList(data); // When move finished, throw data to rank table
     }
 
     function move(obj, i) {

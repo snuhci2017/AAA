@@ -52,6 +52,7 @@ function removePersonFromChart(id) {
         alert("no item left");
         return;
     }
+    // Remove Gauge chart when id removed from IdList
     for (i = 0; i < drawedIdList.length; i++) {
         var name = "#gaugeChart" + (i + 1).toString();
         d3.select(name).select("svg").remove();

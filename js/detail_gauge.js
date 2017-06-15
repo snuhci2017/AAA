@@ -3,7 +3,7 @@ function drawGaugeChart(idList) {
         var inclination = 0;
         for (var fi = 0; fi < masterData.length; fi++) {
             if (+masterData[fi].id === +idList[i]) {
-                inclination = masterData[fi].progressive * 20;
+                inclination = masterData[fi].progressive * 20; // Find progressive tendency from master table
             }
         }
             c3.generate({
@@ -18,21 +18,19 @@ function drawGaugeChart(idList) {
                     label: {
                         format: function(value, ratio) {
                             if(value > 0 && value < 41){
-                                return "conservative";
+                                return "conservative"; // If progressive tendency is between 0 and 40, conservative
                             } else if(value > 40 && value < 80){
-                                return "neutral";
+                                return "neutral"; // If progressive tendency is between 40 and 80, neutral
                             } else {
-                                return "progressive";
+                                return "progressive"; // If progressive tendency is over 80, progressive
                             }
                         }
                     }
                 },
                 color: {
-                    pattern: ["#fb6a4a"], // the three color levels for the percentage values.
+                    pattern: ["#fb6a4a"], // Red color for progressive tendency
                     threshold: {
-                        //            unit: 'value', // percentage is default
-                        //            max: 200, // 100 is default
-                        values: [0]
+                        values: [0] // No threshold used
                     }
                 },
                 size: {
