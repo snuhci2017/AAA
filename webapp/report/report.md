@@ -14,11 +14,10 @@
 
 ## Persona
 ![A3 persona](http://snuhci2017.github.io/AAA/report/persona.png)
-** Primary Persona Description **
-* 김재민씨는 정치에 깊은 관심을 가지고 있는 유권자이다. 그는 투표의 중요성을 이해하고 실제 의정기록 및 다양한 자료들을 바탕으로 의정활동을 열심히 할 것 같은 국회의원을 뽑고자 한다. 
-판단을 위해 그는 국회의안정보 사이트를 방문했지만 낮은 데이터 접근성때문에 어떤 데이터를 보고 의사결정을 해야하는지 잘 감이 잡히지 않았다.
+**Primary Persona Description**
+* 김재민씨는 정치에 깊은 관심을 가지고 있는 유권자이다. 그는 투표의 중요성을 이해하고 실제 의정기록 및 다양한 자료들을 바탕으로 의정활동을 열심히 할 것 같은 국회의원을 뽑고자 한다. 판단을 위해 그는 국회의안정보 사이트를 방문했지만 낮은 데이터 접근성때문에 어떤 데이터를 보고 의사결정을 해야하는지 잘 감이 잡히지 않았다.
 
-** Second Persona Description **
+**Second Persona Description**
 * 박성현씨는 이번 총선이 생애 2번째 투표 참여이다. 그는 저번 총선에서 그냥 인상이 좋아보이는 후보를 뽑았지만 지난 총선에서 자신이 뽑은 국회의원이 지역구에 별다른 이익을 가져다 주지 않아 실제로 그가 지난 4년간 의정활동을 열심히 하였는지 의문이다.
 성현씨는 이번 총선에서 자신과 지역구에 이익이 되는 국회의원을 뽑고자 하지만 경험도, 참고할만한 자료도 없어서 의사결정이 어렵기만하다.
 
@@ -26,21 +25,22 @@
 ### UI Component
 ![A3 layout](http://snuhci2017.github.io/AAA/report/layout.png)
 * Overall Layout
- : 전체적인 layout은 크게 2가지 이론을 기반으로 하여 설계되었다. 
+ : 전체적인 layout은 크게 2가지 이론을 기반으로 하여 설계되었다.<br /> 
  먼저 Page의 Layout은 Document parsing 이론(Top to bottom, Left to right)에 맞게 설계를 하였으며 Visualization은 Ben shneiderman의 Information Seeking Mantra(Overview first, Zoom and Filter, Details on Demand)에 기반하여 구현하였다.
 
 * Ranking Pane
- : Ranking pane은 information seeking mantra에서 overview를 담당하는 요소이다. Weight RadarChart를 이용하여 사용자가 criteria에 가중치를 주면 계산된 Score를 기준으로 의원들을 Sorting하여 보여준다. Lineup 시각화를 모티프로 하여 구현하였으며 각각의 criteria별로 올바른 color mapping을 사용하여 각각의 bar가 어떤 criterion을 나타내는지 쉽게 볼 수 있게 하였다. 
+ : Ranking pane은 information seeking mantra에서 overview를 담당하는 요소이다.<br />
+ Lineup 시각화를 모티프로 하여 구현하였으며 Weight RadarChart를 이용하여 사용자가 criteria별로 가중치를 주면 계산된 Score를 기준으로 의원들을 Sorting하여 보여준다. 각각의 criteria별로 올바른 color mapping을 사용하여 각각의 bar가 어떤 criterion을 나타내는지 쉽게 볼 수 있게 시각화하였다. 
 * Detail Pane
  : Detail pane은 information seeking mantra에서 details on demand를 담당하는 부분으로 각각의 요소들은 올바른 relationship과 grouping에 근거하여 시각화 요소들을 배치하였다. 사용자들은 Ranking pane에서 비교하고 싶은 의원들을 선택하여 Details pane에서 세부 정보들을 비교할 수 있다.
 * GeoMap
- : GeoMap은 Ranking pane와 함께 information seeking mantra에서 overview를 담당하는 요소이다. 국회의원정보의 경우 지역구와 같은 geo data도 의사결정의 근거가 될 수 있는 중요한 데이터이므로 Ranking Pane의 row를 GeoMap의 지역구정보에 linking시켜 해당 의원의 지역구가 어디인지 한눈에 볼 수 있게 하였다. 또한 Ranking Pane의 stacked bar chart로 표시되는 total score는 GeoMap의 지역구 color의 luminance에 맵핑시켜 사용자가 한눈에 국회의원 의정수행 능력을 파악할 수 있도록 구현하였다.
+ : GeoMap은 Ranking pane와 함께 information seeking mantra에서 overview를 담당하는 요소이다. <br />국회의원정보의 경우 지역구와 같은 geo data도 의사결정의 근거가 될 수 있는 중요한 데이터이므로 Ranking Pane의 row를 GeoMap의 지역구정보에 linking시켜 해당 의원의 지역구가 어디인지 한눈에 볼 수 있게 하였다. 또한 Ranking Pane의 stacked bar chart로 표시되는 total score는 GeoMap의 지역구 color의 luminance에 맵핑시켜 사용자가 한눈에 국회의원 의정수행 능력을 파악할 수 있도록 구현하였다.
 * Weight RadarChart
- : Weight RadarChart는 zoom and filter에 해당되는 요소로 6가지의 criteria에 대해 사용자가 가중치를 줄 수 있도록 구현하였다. Slider를 여러개 두는 것이 보다 효율적일수도 있겠지만 사용자에게 보다 aesthetic한 느낌을 주기 위해 RadarChart를 통해 interaction을 하도록 구현하였다. 
+ : Weight RadarChart는 zoom and filter에 해당되는 요소로 사용자가 6가지의 criteria에 대해 가중치를 줄 수 있도록 구현하였다. Slider를 여러개 두는 것이 보다 효율적일수도 있겠지만 사용자에게 보다 aesthetic한 느낌을 주기 위해 RadarChart를 통해 interaction을 하도록 구현하였다. 
 * Selected List
- : Selected List는 details on demand에 해당되는 요소로 사용자가 어떤 의원을 선택했는지 시각화하므로서 사용자에게 시각적 피드백을 준다. 의원들간 시각적으로 잘 구분이 되도록 적절한 color mapping을 사용하여 시각화 하였다.
+ : Selected List는 details on demand에 해당되는 요소로 사용자의 선택 정보를 color에 mapping시켜 사용자에게 시각적 피드백을 준다. 의원들간 시각적으로 잘 구분이 되도록 적절한 color mapping을 사용하여 시각화 하였다.
 * Bill Sum (Stacked bar + accumulated line chart)
- : Bill Sum은 details on demand에 해당되는 요소로 의원별 기간당 의안 발의수를 stacked bar chart로 시각화하고 누적 의안 발의수를 line chart로 시각화하여 pareto chart와 비슷한 형식으로 시각화하여 의원간 의정수행능력 비교를 용이하게 하였다.  
+ : Bill Sum은 details on demand에 해당되는 요소로 의원별 기간당 의안 발의수를 stacked bar chart로, 누적 의안 발의수를 line chart로 시각화하여 pareto chart와 비슷한 형식으로 의원간 의정수행능력 비교를 용이하게 하였다.  
 * Detail Bars
  : Detail Bars는 details on demand에 해당되는 요소이다. Weight RadarChart의 criterion들을 기준으로 의원간 비교가 용이하도록 bar chart로 시각화를 하였다. Bar chart의 color는 Selected List와 통일성을 유지하기 위해 같은 color를 사용하였다.
 * Guage
