@@ -15,8 +15,11 @@
 ## Persona
 ![A3 persona](http://snuhci2017.github.io/AAA/report/persona.png)
 ** Primary Persona Description **
+* 김재민씨는 정치에 깊은 관심을 가지고 있는 유권자이다. 그는 
 
 ** Second Persona Description **
+* 박성현씨는 이번 총선이 생애 2번째 투표 참여이다. 그는 저번 총선에서 그냥 인상이 좋은 후보를 뽑았지만 지난 총선에서 자신이 뽑은 국회의원이 지역구에 별다른 이익을 가져다 주지 않아 실제로 그가 지난 4년간 의정활동을 열심히 하였는지 의문이다.
+성현씨는 이번 총선에서 자신과 지역구에 이익이 되는 국회의원을 뽑고자 하지만 경험도, 참고할만한 자료도 없어서 의사결정이 어렵기만하다.
 
 ## UI Layout / Flow
 ### UI Component
