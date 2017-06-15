@@ -4,6 +4,7 @@
 
 ## Background / Goal
 ![A3 background](http://snuhci2017.github.io/AAA/report/background.png)
+
 **객관적/정량적 데이터를 바탕으로 합리적 투표권 행사**
  - 공개 국회의원 의안 데이터를 분석 -> 효과적 Visualization/Interaction을 통해 의사 결정 지원
 ![A3 Project Concept](http://snuhci2017.github.io/AAA/report/concept.png)
