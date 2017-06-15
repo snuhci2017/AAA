@@ -1,30 +1,34 @@
+// Function for updateGeomap (When criteria changed)
 function updateGeomap(data) {
 		var maxVal = -1;
 		var minVal = 2;
         d3.select("#geo").selectAll(".g_precinct").select("path.precinct").style("fill", function(d) {
-                for (i = 0; i < data.length; i++) {
+                // Recalculate assembly score
+				for (i = 0; i < data.length; i++) {
                     if (data[i].score > maxVal) maxVal = data[i].score;
                     if (data[i].score < minVal) minVal = data[i].score;
                     if (d.properties.precinct_name === data[i].precinct) {
                         score = data[i].score;
                     }
                 }
+				// Remapping color
                 return d3.hcl(-97, 150, 200 - (255 * ((score-minVal)/(maxVal-minVal))));
             })
             .style("stroke", "#000");
 }
+// Function for linking between ranktable and geomap
 function hightlightGeo(data){
 	d3.select("#geo").selectAll(".g_precinct").select("path.precinct").filter(function(d){
 		return (d.properties.precinct_name === data);
 	}).style({'stroke': 'red',"stroke-width": "0.3px"});
 }
-
+// Function for linking between ranktable and geomap
 function deHighlightGeo(data){
 	d3.select("#geo").selectAll(".g_precinct").select("path.precinct").filter(function(d){
 		return (d.properties.precinct_name === data);
 	}).style({'stroke': '#777',"stroke-width": "0.07px"});
 }
-
+// Function for draw geomap
 function drawGeo(id, data){
 	var maps_path = {"provinces": "provinces.json", "precinct": "precinct.json"}
 	var topo_key = {"provinces": "provinces-geo", "precinct": "precincts"}
@@ -61,6 +65,7 @@ function drawGeo(id, data){
 	var gm = g.append("g"); // group for precincts
 	var gp = g.append("g"); // group for province
 
+	// Get province info and draw province (Seoul only)
 	d3.json(maps_path["provinces"], function(error, kor) {
 		if (error) throw error;
 		provinces = topojson.feature(kor, kor.objects[topo_key["provinces"]]);
@@ -77,18 +82,11 @@ function drawGeo(id, data){
 			.append("title")
 			.text(function(d) { return d.properties.name; });
 		
-		g_provinces.append("text")
-			.attr("class", "province-label")
-			.attr("id", function(d) { return "subunit-label " + d.properties.code; })
-			.attr("transform", function(d) {return "translate(" + [348,121] + ")"; })
-			.attr("dy", ".35em")
-			.text(function(d) { return d.properties.name; });
-			
 		g_provinces.select("path.province")
 			.classed("selected", true);
 		
 	});
-
+	// Get precinct info and draw precincts
 	d3.json(maps_path["precinct"], function(error, kor) {
 		if (error) throw error;
 		var precincts = topojson.feature(kor, kor.objects[topo_key["precinct"]]);
@@ -104,13 +102,13 @@ function drawGeo(id, data){
 			.append('path')
 			.attr('d', path)
 			.attr('class', 'precinct');
-			//.on("click", clicked);
         
 		g_precincts.append("text")
 			.attr("class", "precinct-label")
 			.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
 			.attr("dy", ".35em")
 			.text(function(d) {
+				// Get largest bill and min bill for color mapping
 				if(d.properties.bills > largest_bill){
 					largest_bill = d.properties.bills;
 				}
@@ -122,11 +120,11 @@ function drawGeo(id, data){
 
 		g_precincts.select("path.precinct")
 			.style("fill", function(d) {
-				// Write code in here! 
+				// Color mapping. Initially, use bill info only 
 				return d3.hcl(-97, 150, 200 - (255 * ((d.properties.bills-min_bill)/(largest_bill-min_bill))));})
 			.style("stroke","#000");
-			//.on("click", clicked)
 
+		// Calculate bounds and translate geomap for proper view
 		var state = provinces.features.filter(function(d) { return d.properties.code === '11'; })[0];
         var bounds = path.bounds(state),
 			dx = bounds[1][0] - bounds[0][0],
@@ -144,6 +142,7 @@ function drawGeo(id, data){
 		d3.selectAll(".province").style("stroke-width", 2 / scale + "px");
 		d3.selectAll(".precinct").style("stroke-width", 1 / scale + "px");
 
+		// Function for linking between geomap and rank table
 		g_precincts.on("mouseover", function(data){
 			d3.select("#geo").selectAll(".g_precinct").select("path.precinct").filter(function(d){
 			return (d.properties.precinct_name === data.properties.precinct_name);
@@ -158,23 +157,4 @@ function drawGeo(id, data){
 			deHighlightperson(data.properties.assembly);
 		});
 	});
-	/*
-	function clicked(d){
-		if(!d3.select(this).classed("highlighted")){
-			d3.select(this).style("fill","blue");
-			d3.select(this).classed("highlighted",true);
-			id_list.push(d.properties.id);
-		}
-		else{
-			d3.select(this).style("fill", function(d) { return d3.hcl(255,0,(255-parseInt(d.properties.bills/largest_bill*2*255)));});
-			d3.select(this).classed("highlighted",false);
-			for (var i = 0; i < id_list.length; i++){
-				if(id_list[i] === d.properties.id){
-					id_list.splice(i,1);
-					break;
-				}
-			}
-		}
-		return id_list;
-	}*/
 }
