@@ -34,7 +34,7 @@
 * Detail Pane<br />
  Detail pane은 information seeking mantra에서 details on demand를 담당하는 부분으로 각각의 요소들은 올바른 relationship과 grouping에 근거하여 시각화 요소들을 배치하였다. 사용자들은 Ranking pane에서 비교하고 싶은 의원들을 선택하여 Details pane에서 세부 정보들을 비교할 수 있다.
 * GeoMap<br />
- GeoMap은 Ranking pane와 함께 information seeking mantra에서 overview를 담당하는 요소이다. <br />국회의원정보의 경우 지역구와 같은 geo data도 의사결정의 근거가 될 수 있는 중요한 데이터이므로 Ranking Pane의 row를 GeoMap의 지역구정보에 linking시켜 해당 의원의 지역구가 어디인지 한눈에 볼 수 있게 하였다. 또한 Ranking Pane의 stacked bar chart로 표시되는 total score는 GeoMap의 지역구 color의 luminance에 맵핑시켜 사용자가 한눈에 국회의원 의정수행 능력을 파악할 수 있도록 구현하였다.
+ GeoMap은 Ranking pane와 함께 information seeking mantra에서 overview를 담당하는 요소이다. <br />국회의원정보의 경우 지역구와 같은 geo data도 의사결정의 근거가 될 수 있는 중요한 데이터이므로 Ranking Pane의 row를 GeoMap의 지역구정보에 linking시켜 해당 의원의 지역구가 어디인지 한눈에 볼 수 있게 하였다. 또한 Ranking Pane stacked bar chart로 표시되는 total score는 GeoMap의 지역구 color의 luminance에 맵핑시켜 사용자가 한눈에 국회의원 의정수행 능력을 파악할 수 있도록 구현하였다.
 * Weight RadarChart<br />
  Weight RadarChart는 zoom and filter에 해당되는 요소로 사용자가 6가지의 criteria에 대해 가중치를 줄 수 있도록 구현하였다. Slider를 여러개 두는 것이 보다 효율적일수도 있겠지만 사용자에게 보다 aesthetic한 느낌을 주기 위해 RadarChart를 통해 interaction을 하도록 구현하였다. 
 * Selected List<br />
