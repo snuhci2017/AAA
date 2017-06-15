@@ -28,23 +28,23 @@
  : 전체적인 layout은 크게 2가지 이론을 기반으로 하여 설계되었다.<br /> 
  먼저 Page의 Layout은 Document parsing 이론(Top to bottom, Left to right)에 맞게 설계를 하였으며 Visualization은 Ben shneiderman의 Information Seeking Mantra(Overview first, Zoom and Filter, Details on Demand)에 기반하여 구현하였다.
 
-* Ranking Pane
- : Ranking pane은 information seeking mantra에서 overview를 담당하는 요소이다.<br />
+* Ranking Pane<br />
+ Ranking pane은 information seeking mantra에서 overview를 담당하는 요소이다.<br />
  Lineup 시각화를 모티프로 하여 구현하였으며 Weight RadarChart를 이용하여 사용자가 criteria별로 가중치를 주면 계산된 Score를 기준으로 의원들을 Sorting하여 보여준다. 각각의 criteria별로 올바른 color mapping을 사용하여 각각의 bar가 어떤 criterion을 나타내는지 쉽게 볼 수 있게 시각화하였다. 
-* Detail Pane
- : Detail pane은 information seeking mantra에서 details on demand를 담당하는 부분으로 각각의 요소들은 올바른 relationship과 grouping에 근거하여 시각화 요소들을 배치하였다. 사용자들은 Ranking pane에서 비교하고 싶은 의원들을 선택하여 Details pane에서 세부 정보들을 비교할 수 있다.
-* GeoMap
- : GeoMap은 Ranking pane와 함께 information seeking mantra에서 overview를 담당하는 요소이다. <br />국회의원정보의 경우 지역구와 같은 geo data도 의사결정의 근거가 될 수 있는 중요한 데이터이므로 Ranking Pane의 row를 GeoMap의 지역구정보에 linking시켜 해당 의원의 지역구가 어디인지 한눈에 볼 수 있게 하였다. 또한 Ranking Pane의 stacked bar chart로 표시되는 total score는 GeoMap의 지역구 color의 luminance에 맵핑시켜 사용자가 한눈에 국회의원 의정수행 능력을 파악할 수 있도록 구현하였다.
-* Weight RadarChart
- : Weight RadarChart는 zoom and filter에 해당되는 요소로 사용자가 6가지의 criteria에 대해 가중치를 줄 수 있도록 구현하였다. Slider를 여러개 두는 것이 보다 효율적일수도 있겠지만 사용자에게 보다 aesthetic한 느낌을 주기 위해 RadarChart를 통해 interaction을 하도록 구현하였다. 
-* Selected List
- : Selected List는 details on demand에 해당되는 요소로 사용자의 선택 정보를 color에 mapping시켜 사용자에게 시각적 피드백을 준다. 의원들간 시각적으로 잘 구분이 되도록 적절한 color mapping을 사용하여 시각화 하였다.
-* Bill Sum (Stacked bar + accumulated line chart)
- : Bill Sum은 details on demand에 해당되는 요소로 의원별 기간당 의안 발의수를 stacked bar chart로, 누적 의안 발의수를 line chart로 시각화하여 pareto chart와 비슷한 형식으로 의원간 의정수행능력 비교를 용이하게 하였다.  
-* Detail Bars
- : Detail Bars는 details on demand에 해당되는 요소이다. Weight RadarChart의 criterion들을 기준으로 의원간 비교가 용이하도록 bar chart로 시각화를 하였다. Bar chart의 color는 Selected List와 통일성을 유지하기 위해 같은 color를 사용하였다.
-* Guage
- : Gauge chart는 details on demand에 해당되는 요소이다. Gauge chart는 해당 의원의 정치적 성향이 진보로 어느정도 치우쳤는지, 보수로 어느정도 치우쳤는지를 시각화한다. 
+* Detail Pane<br />
+ Detail pane은 information seeking mantra에서 details on demand를 담당하는 부분으로 각각의 요소들은 올바른 relationship과 grouping에 근거하여 시각화 요소들을 배치하였다. 사용자들은 Ranking pane에서 비교하고 싶은 의원들을 선택하여 Details pane에서 세부 정보들을 비교할 수 있다.
+* GeoMap<br />
+ GeoMap은 Ranking pane와 함께 information seeking mantra에서 overview를 담당하는 요소이다. <br />국회의원정보의 경우 지역구와 같은 geo data도 의사결정의 근거가 될 수 있는 중요한 데이터이므로 Ranking Pane의 row를 GeoMap의 지역구정보에 linking시켜 해당 의원의 지역구가 어디인지 한눈에 볼 수 있게 하였다. 또한 Ranking Pane의 stacked bar chart로 표시되는 total score는 GeoMap의 지역구 color의 luminance에 맵핑시켜 사용자가 한눈에 국회의원 의정수행 능력을 파악할 수 있도록 구현하였다.
+* Weight RadarChart<br />
+ Weight RadarChart는 zoom and filter에 해당되는 요소로 사용자가 6가지의 criteria에 대해 가중치를 줄 수 있도록 구현하였다. Slider를 여러개 두는 것이 보다 효율적일수도 있겠지만 사용자에게 보다 aesthetic한 느낌을 주기 위해 RadarChart를 통해 interaction을 하도록 구현하였다. 
+* Selected List<br />
+ Selected List는 details on demand에 해당되는 요소로 사용자의 선택 정보를 color에 mapping시켜 사용자에게 시각적 피드백을 준다. 의원들간 시각적으로 잘 구분이 되도록 적절한 color mapping을 사용하여 시각화 하였다.
+* Bill Sum (Stacked bar + accumulated line chart)<br />
+ Bill Sum은 details on demand에 해당되는 요소로 의원별 기간당 의안 발의수를 stacked bar chart로, 누적 의안 발의수를 line chart로 시각화하여 pareto chart와 비슷한 형식으로 의원간 의정수행능력 비교를 용이하게 하였다.  
+* Detail Bars<br />
+ Detail Bars는 details on demand에 해당되는 요소이다. Weight RadarChart의 criterion들을 기준으로 의원간 비교가 용이하도록 bar chart로 시각화를 하였다. Bar chart의 color는 Selected List와 통일성을 유지하기 위해 같은 color를 사용하였다.
+* Guage<br />
+ Gauge chart는 details on demand에 해당되는 요소이다. Gauge chart는 해당 의원의 정치적 성향이 진보로 어느정도 치우쳤는지, 보수로 어느정도 치우쳤는지를 시각화한다. 
 
 ### Visual Seeking Mantra에 따른 Flow
 ![A3 Seeking Mantra](http://snuhci2017.github.io/AAA/report/mantra.png)
