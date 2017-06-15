@@ -15,7 +15,8 @@
 ## Persona
 ![A3 persona](http://snuhci2017.github.io/AAA/report/persona.png)
 ** Primary Persona Description **
-* 김재민씨는 정치에 깊은 관심을 가지고 있는 유권자이다. 그는 
+* 김재민씨는 정치에 깊은 관심을 가지고 있는 유권자이다. 그는 투표의 중요성을 이해하고 실제 의정기록 및 다양한 자료들을 바탕으로 의정활동을 열심히 할 것 같은 국회의원을 뽑고자 한다. 
+판단을 위해 그는 국회의안정보 사이트를 방문했지만 낮은 데이터 접근성때문에 어떤 데이터를 보고 의사결정을 해야하는지 잘 감이 잡히지 않는다.
 
 ** Second Persona Description **
 * 박성현씨는 이번 총선이 생애 2번째 투표 참여이다. 그는 저번 총선에서 그냥 인상이 좋은 후보를 뽑았지만 지난 총선에서 자신이 뽑은 국회의원이 지역구에 별다른 이익을 가져다 주지 않아 실제로 그가 지난 4년간 의정활동을 열심히 하였는지 의문이다.
@@ -24,15 +25,26 @@
 ## UI Layout / Flow
 ### UI Component
 ![A3 layout](http://snuhci2017.github.io/AAA/report/layout.png)
+* Overall Layout
+ : 전체적인 layout은 크게 2가지 이론을 기반으로 하여 설계되었다. 
+ 먼저 Page의 Layout은 Document parsing 이론(Top to bottom, Left to right)에 맞게 설계를 하였으며 Visualization은 Ben shneiderman의 Information Seeking Mantra(Overview first, Zoom and Filter, Details on Demand)에 기반하여 구현하였다.
+
 * Ranking Pane
- : 이건 어떤 역할/기능을 하고, 이걸 넣은건 HCI 적으로 어떻기 때문에 넣었따...
+ : Ranking pane은 information seeking mantra에서 overview를 담당하는 요소이다. 
 * Detail Pane
+ : Detail pane은 information seeking mantra에서 details on demand를 담당하는 부분으로 
 * GeoMap
+ : GeoMap은 Ranking pane과 같이 information seeking mantra에서 overview를 담당하는 요소이다. 국회의원정보의 경우 지역구와 같은 geo data도 의사결정의 근거가 될 수 있는 중요한 데이터이므로 Ranking Pane의 row의 지역구정보를 GeoMap에 linking시켜 해당 의원의 지역구가 어디인지 한눈에 볼 수 있게 하였다. 또한 Ranking Pane의 stacked bar chart로 표시되는 total score는 GeoMap의 지역구 color의 luminance에 맵핑시켜 사용자가 한눈에 국회의원 의정수행 능력을 파악할 수 있도록 설계하였다.
 * Weight RadarChart
+ : Weight RadarChart는 zoom on filter에 해당되는 요소로 
 * Selected List
+ : Selected List는 details on demand에 해당되는 요소로 사용자가 어떤 의원을 선택했는지 시각화하므로서 사용자에게 시각적 피드백을 준다. 의원들간 시각적으로 잘 구분이 되도록 적절한 color mapping을 사용하여 시각화 하였다.
 * Bill Sum (Stacked bar + accumulated line chart)
+ : Bill Sum은 details on demand에 해당되는 요소로 의원별 기간당 의안 발의수를 stacked bar chart로 시각화하고 누적 의안 발의수를 line chart로 시각화하여 pareto chart와 비슷한 형식으로 시각화하여 의원간 비교를 용이하게 하였다.  
 * Detail Bars
+ : Detail Bar는 details on demand에 해당되는 요소이다. Weight RadarChart의 criterion을 기준으로 의원간 비교가 용이하도록 bar chart로 시각화를 하였다.
 * Guage
+ : Gauge chart는 details on demand에 해당되는 요소이다. Gauge chart는 해당 의원의 정치적 성향이 진보로 어느정도 치우쳤는지, 보수로 어느정도 치우쳤는지를 시각화한다. 
 
 ### Visual Seeking Mantra에 따른 Flow
 ![A3 Seeking Mantra](http://snuhci2017.github.io/AAA/report/mantra.png)
