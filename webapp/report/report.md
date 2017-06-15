@@ -25,7 +25,7 @@
 ## UI Layout / Flow
 ### UI Component
 ![A3 layout](http://snuhci2017.github.io/AAA/report/layout.png)
-* Overall Layout
+* ###Overall Layout
  : 전체적인 layout은 크게 2가지 이론을 기반으로 하여 설계되었다. 
  먼저 Page의 Layout은 Document parsing 이론(Top to bottom, Left to right)에 맞게 설계를 하였으며 Visualization은 Ben shneiderman의 Information Seeking Mantra(Overview first, Zoom and Filter, Details on Demand)에 기반하여 구현하였다.
 
